@@ -49,3 +49,54 @@ export const LoginPage = () => {
             <GraduationCap className="w-7 h-7 text-amber-400" />
           </div>
           <h1 className="text-2xl font-black text-white font-['Outfit']">Sign In to SympoSphere</h1>
+          <p className="text-xs text-blue-300">
+            Easwari Engineering College (Autonomous)
+          </p>
+        </div>
+
+        {/* 1-Click Demo Login Box */}
+        <div className="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 space-y-2 text-xs">
+          <p className="text-slate-400 font-semibold text-center text-[11px] uppercase tracking-wider">
+            ⚡ Quick Demo Accounts
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => handleFillDemo('student')}
+              className="py-2 px-2.5 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/40 font-semibold flex items-center justify-center gap-1.5 transition-colors"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+              <span>Student Demo</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleFillDemo('organizer')}
+              className="py-2 px-2.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/40 font-semibold flex items-center justify-center gap-1.5 transition-colors"
+            >
+              <UserCheck className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Organizer Demo</span>
+            </button>
+          </div>
+        </div>
+
+        {error && (
+          <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs text-slate-200">
+          <div className="space-y-1">
+            <label className="font-bold text-slate-300 uppercase tracking-wider text-[11px]">
+              College / Personal Email
+            </label>
+            <div className="relative">
+              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="student@eec.srmrmp.edu.in"
