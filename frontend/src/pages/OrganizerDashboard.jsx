@@ -234,3 +234,50 @@ export const OrganizerDashboard = () => {
                             <Calendar className="w-3.5 h-3.5 text-blue-400" />
                             <span>{eventDate}</span>
                           </div>
+                          <p className="text-[11px] text-slate-400 truncate max-w-[150px]">{event.venue}</p>
+                        </td>
+
+                        {/* Seat Meter */}
+                        <td className="py-4 px-4 min-w-[160px]">
+                          <div className="flex items-center justify-between text-[11px] mb-1">
+                            <span className="font-bold text-white">{booked} registered</span>
+                            <span className="text-slate-400">{event.seatsAvailable} left</span>
+                          </div>
+                          <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                            <div
+                              className="bg-blue-500 h-full rounded-full"
+                              style={{ width: `${percent}%` }}
+                            />
+                          </div>
+                        </td>
+
+                        {/* View Attendees */}
+                        <td className="py-4 px-4 text-center whitespace-nowrap">
+                          <Link
+                            to={`/organizer/events/${event._id}/attendees`}
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/40 text-xs font-semibold transition-colors"
+                          >
+                            <Users className="w-3.5 h-3.5" />
+                            <span>View Roster ({booked})</span>
+                          </Link>
+                        </td>
+
+                        {/* Export Buttons: CSV & JSON */}
+                        <td className="py-4 px-4 text-center whitespace-nowrap">
+                          <div className="inline-flex items-center gap-1.5">
+                            {/* Export CSV Button */}
+                            <button
+                              onClick={() => handleExportCsv(event._id, event.title)}
+                              disabled={exportingId === `${event._id}-csv`}
+                              className="px-2.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 text-xs font-semibold flex items-center gap-1 transition-colors"
+                              title="Export Attendee Roster as CSV (for Excel / Sheets)"
+                            >
+                              {exportingId === `${event._id}-csv` ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              ) : (
+                                <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+                              )}
+                              <span>CSV</span>
+                            </button>
+
+                            {/* Export JSON Button */}
