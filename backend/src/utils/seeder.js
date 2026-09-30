@@ -45,3 +45,51 @@ export const seedDatabase = async () => {
 
     const student2 = await User.create({
       name: 'Karthik Narayanan',
+      email: 'karthik.ra@eec.srmrmp.edu.in',
+      password: 'Student@123',
+      role: 'student',
+      department: 'Robotics and Automation',
+      collegeName: 'SRM Easwari Engineering College (Autonomous)',
+      rollNo: '310621206015',
+      year: 3,
+      phone: '+91 98840 98765'
+    });
+
+    const student3 = await User.create({
+      name: 'Swetha Raman',
+      email: 'swetha.eee@eec.srmrmp.edu.in',
+      password: 'Student@123',
+      role: 'student',
+      department: 'Electrical and Electronics Engineering',
+      collegeName: 'SRM Easwari Engineering College (Autonomous)',
+      rollNo: '310621207042',
+      year: 2,
+      phone: '+91 97910 11223'
+    });
+
+    const student4 = await User.create({
+      name: 'Praveen Kumar',
+      email: 'praveen.cse@eec.srmrmp.edu.in',
+      password: 'Student@123',
+      role: 'student',
+      department: 'Computer Science & Engineering',
+      collegeName: 'SRM Easwari Engineering College (Autonomous)',
+      rollNo: '310621208088',
+      year: 4,
+      phone: '+91 91760 33445'
+    });
+
+    console.log('✅ Created Demo Users (Organizer & Students).');
+
+    // Dates
+    const now = new Date();
+    const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const inTwoWeeks = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
+    const inThreeWeeks = new Date(now.getTime() + 21 * 24 * 60 * 60 * 1000);
+    const inOneMonth = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+    // 2. Create Events
+    const events = await Event.create([
+      {
+        title: "CYBERBLITZ '26 - National Level Cyber Defense & Ethical Hacking Symposium",
+        description:
