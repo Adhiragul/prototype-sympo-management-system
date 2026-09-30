@@ -200,3 +200,53 @@ export const EventAttendeesPage = () => {
           <p className="text-xs text-slate-400">
             Showing <strong className="text-white">{filteredAttendees.length}</strong> of {attendees.length} attendees
           </p>
+        </div>
+
+        {filteredAttendees.length === 0 ? (
+          <div className="p-8 text-center bg-slate-900/60 border border-slate-800 rounded-2xl">
+            <p className="text-xs text-slate-400">No attendees match your search query.</p>
+          </div>
+        ) : (
+          <div className="bg-[#0b132b]/80 border border-blue-900/40 rounded-2xl overflow-hidden shadow-xl">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs text-slate-300">
+                <thead className="bg-[#070d1e] text-slate-400 uppercase text-[10px] tracking-wider border-b border-blue-950">
+                  <tr>
+                    <th className="py-3 px-4">#</th>
+                    <th className="py-3 px-4">Ticket ID</th>
+                    <th className="py-3 px-4">Student Name</th>
+                    <th className="py-3 px-4">Roll No</th>
+                    <th className="py-3 px-4">Department & College</th>
+                    <th className="py-3 px-4">Registration Time</th>
+                    <th className="py-3 px-4 text-center">Attendance Check-in</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/80">
+                  {filteredAttendees.map((att, index) => {
+                    const regDate = new Date(att.registeredAt).toLocaleString('en-IN', {
+                      day: 'numeric',
+                      month: 'short',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    });
+
+                    return (
+                      <tr key={att._id} className="hover:bg-slate-800/40 transition-colors">
+                        <td className="py-3.5 px-4 text-slate-500 font-mono">{index + 1}</td>
+
+                        {/* Ticket Code */}
+                        <td className="py-3.5 px-4 font-mono font-bold text-amber-400">
+                          {att.ticketId}
+                        </td>
+
+                        {/* Student Name & Email */}
+                        <td className="py-3.5 px-4">
+                          <p className="font-bold text-white text-sm">{att.user?.name || 'N/A'}</p>
+                          <p className="text-[11px] text-slate-400">{att.user?.email}</p>
+                        </td>
+
+                        {/* Roll No */}
+                        <td className="py-3.5 px-4 font-mono font-semibold text-slate-200">
+                          {att.user?.rollNo || '-'}
+                        </td>
+
