@@ -42,3 +42,47 @@ function App() {
 
               {/* Organizer / Admin Protected Routes */}
               <Route
+                path="/organizer/dashboard"
+                element={
+                  <ProtectedRoute requireOrganizer={true}>
+                    <OrganizerDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/organizer/create-event"
+                element={
+                  <ProtectedRoute requireOrganizer={true}>
+                    <CreateEditEventPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/organizer/edit-event/:id"
+                element={
+                  <ProtectedRoute requireOrganizer={true}>
+                    <CreateEditEventPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/organizer/events/:id/attendees"
+                element={
+                  <ProtectedRoute requireOrganizer={true}>
+                    <EventAttendeesPage />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Fallback */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
+
+export default App;
