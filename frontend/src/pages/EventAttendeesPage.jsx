@@ -99,3 +99,53 @@ export const EventAttendeesPage = () => {
   if (!data) {
     return (
       <div className="max-w-md mx-auto my-16 p-8 bg-slate-900 border border-slate-800 rounded-3xl text-center space-y-4">
+        <p className="text-sm text-slate-400">Could not find attendee roster for this event.</p>
+        <Link to="/organizer/dashboard" className="inline-block px-4 py-2 bg-blue-600 rounded-xl text-xs font-semibold text-white">
+          Back to Dashboard
+        </Link>
+      </div>
+    );
+  }
+
+  const { event, attendees } = data;
+  const filteredAttendees = attendees.filter((a) => {
+    const term = search.toLowerCase();
+    return (
+      a.ticketId?.toLowerCase().includes(term) ||
+      a.user?.name?.toLowerCase().includes(term) ||
+      a.user?.email?.toLowerCase().includes(term) ||
+      a.user?.rollNo?.toLowerCase().includes(term) ||
+      a.user?.department?.toLowerCase().includes(term)
+    );
+  });
+
+  const attendedCount = attendees.filter((a) => a.attended).length;
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* Back Link */}
+      <Link
+        to="/organizer/dashboard"
+        className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        <span>Back to Organizer Dashboard</span>
+      </Link>
+
+      {/* Header Banner with Event Specs & Export Buttons */}
+      <div className="bg-[#0b132b]/90 border border-blue-900/50 p-6 sm:p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-600 text-white">
+              {event.department}
+            </span>
+            <span className="text-xs text-slate-400">
+              Total Capacity: <strong>{event.totalSeats} seats</strong> ({event.seatsAvailable} remaining)
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black text-white font-['Outfit']">
+            {event.title}
+          </h1>
+          <p className="text-xs text-slate-300">
+            Registered Attendees: <strong className="text-white">{attendees.length}</strong> • Verified Check-ins: <strong className="text-emerald-400">{attendedCount}</strong>
+          </p>
