@@ -216,3 +216,58 @@ export const CreateEditEventPage = () => {
           </div>
 
           {/* Department & Category */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-300 uppercase tracking-wider">
+                Host Department *
+              </label>
+              <select
+                name="department"
+                value={formData.department}
+                onChange={handleChange}
+                className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              >
+                {DEPARTMENTS.map((dept) => (
+                  <option key={dept} value={dept}>
+                    {dept}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-300 uppercase tracking-wider">
+                Event Category *
+              </label>
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              >
+                {CATEGORIES.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Club Name & Mode */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-300 uppercase tracking-wider">
+                Organizing Club / Student Body *
+              </label>
+              <input
+                type="text"
+                name="clubName"
+                required
+                value={formData.clubName}
+                onChange={handleChange}
+                placeholder="e.g. CyberDef Club EEC / RoboTech Club / IEEE Student Branch"
+                className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
