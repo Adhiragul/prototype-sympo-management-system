@@ -271,3 +271,58 @@ export const CreateEditEventPage = () => {
               />
             </div>
 
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-300 uppercase tracking-wider">
+                Event Mode *
+              </label>
+              <select
+                name="mode"
+                value={formData.mode}
+                onChange={handleChange}
+                className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              >
+                <option value="In-Person">In-Person (Campus)</option>
+                <option value="Virtual">Virtual (Online)</option>
+                <option value="Hybrid">Hybrid</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Venue & Total Seats */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-300 uppercase tracking-wider">
+                Campus Venue *
+              </label>
+              <select
+                name="venue"
+                value={formData.venue}
+                onChange={handleChange}
+                className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              >
+                {VENUES.map((v) => (
+                  <option key={v} value={v}>
+                    {v}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-300 uppercase tracking-wider">
+                Total Seat Capacity *
+              </label>
+              <input
+                type="number"
+                name="totalSeats"
+                min="1"
+                required
+                value={formData.totalSeats}
+                onChange={handleChange}
+                className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* Event Date & Registration Deadline */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
