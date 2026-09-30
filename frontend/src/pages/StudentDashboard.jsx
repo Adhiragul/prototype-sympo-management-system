@@ -195,3 +195,53 @@ export const StudentDashboard = () => {
           </div>
         )}
       </div>
+
+      {/* Digital Ticket Modal */}
+      {activeTicket && (
+        <TicketModal
+          registration={activeTicket}
+          onClose={() => setActiveTicket(null)}
+        />
+      )}
+
+      {/* Cancel RSVP Confirmation Modal */}
+      {cancelModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="max-w-md w-full bg-[#0d142d] border border-blue-900/60 rounded-3xl p-6 space-y-4 shadow-2xl text-center">
+            <div className="w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center mx-auto border border-rose-500/30">
+              <AlertTriangle className="w-6 h-6" />
+            </div>
+
+            <h3 className="text-lg font-bold text-white">Cancel Registration?</h3>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Are you sure you want to cancel your RSVP for <strong className="text-white">{cancelModal.event?.title}</strong>? Your reserved seat will be immediately released back to other students.
+            </p>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                onClick={() => setCancelModal(null)}
+                className="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition-colors"
+              >
+                Keep Seat
+              </button>
+              <button
+                onClick={() => handleCancelRsvp(cancelModal._id)}
+                disabled={cancellingId === cancelModal._id}
+                className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-colors flex items-center justify-center gap-2"
+              >
+                {cancellingId === cancelModal._id ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Cancelling...</span>
+                  </>
+                ) : (
+                  <span>Yes, Cancel RSVP</span>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
