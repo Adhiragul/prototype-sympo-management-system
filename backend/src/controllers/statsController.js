@@ -27,3 +27,32 @@ export const getDashboardStats = async (req, res, next) => {
       attended: true
     });
 
+    // Registrations per department
+    const deptDistribution = {};
+    events.forEach(e => {
+      deptDistribution[e.department] = (deptDistribution[e.department] || 0) + (e.totalSeats - e.seatsAvailable);
+    });
+
+    // Registrations per category
+    const categoryDistribution = {};
+    events.forEach(e => {
+      categoryDistribution[e.category] = (categoryDistribution[e.category] || 0) + 1;
+    });
+
+    res.json({
+      success: true,
+      stats: {
+        totalEvents,
+        totalCapacity,
+        totalAvailable,
+        totalRegistrations: confirmedRegistrations,
+        attendanceRate: confirmedRegistrations > 0 ? Math.round((attendedCount / confirmedRegistrations) * 100) : 0,
+        fillRate: totalCapacity > 0 ? Math.round(((totalCapacity - totalAvailable) / totalCapacity) * 100) : 0,
+        deptDistribution,
+        categoryDistribution
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
