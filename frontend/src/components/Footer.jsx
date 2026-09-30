@@ -39,3 +39,45 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/events?department=Robotics and Automation" className="hover:text-blue-400 flex items-center gap-1.5 transition-colors">
+                  <Cpu className="w-3.5 h-3.5 text-cyan-400" />
+                  Robotics & Automation (RA)
+                </Link>
+              </li>
+              <li>
+                <Link to="/events?department=Electrical and Electronics Engineering" className="hover:text-blue-400 flex items-center gap-1.5 transition-colors">
+                  <Zap className="w-3.5 h-3.5 text-amber-400" />
+                  Electrical & Electronics (EEE)
+                </Link>
+              </li>
+              <li>
+                <Link to="/events?department=Computer Science & Engineering" className="hover:text-blue-400 flex items-center gap-1.5 transition-colors">
+                  <Code className="w-3.5 h-3.5 text-indigo-400" />
+                  Computer Science & Engg (CSE)
+                </Link>
+              </li>
+              <li>
+                <Link to="/events?department=Artificial Intelligence & Data Science" className="hover:text-blue-400 flex items-center gap-1.5 transition-colors">
+                  <Cpu className="w-3.5 h-3.5 text-purple-400" />
+                  AI & Data Science (AI&DS)
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 3: Venues & Campus Spots */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">
+              Campus Venues
+            </h4>
+            <ul className="space-y-1.5 text-xs text-slate-400">
+              <li>• TRP Auditorium (Capacity: 1200)</li>
+              <li>• EEC Mini Auditorium (Block 2)</li>
+              <li>• Hi-Tech Seminar Hall (Block 5)</li>
+              <li>• Cyber Defense Centre Lab</li>
+              <li>• Advanced Robotics & ROS Lab</li>
+              <li>• Power Electronics Lab (EEE)</li>
+            </ul>
+          </div>
+
+          {/* Col 4: Quick Portals & Contact */}
