@@ -141,3 +141,51 @@ export const TicketModal = ({ registration, onClose }) => {
           <div className="flex items-center justify-between bg-slate-900/50 p-4 rounded-xl border border-slate-800 gap-4">
             <div className="space-y-1 text-xs">
               <p className="text-[10px] uppercase font-bold text-slate-400">Attendee Details</p>
+              <p className="font-bold text-white text-sm flex items-center gap-1.5">
+                <User className="w-3.5 h-3.5 text-blue-400" />
+                <span>{user.name || 'Registered Student'}</span>
+              </p>
+              <p className="text-slate-300">{user.email}</p>
+              <p className="text-slate-400 text-[11px]">
+                Roll No: <strong className="text-slate-200">{user.rollNo || 'N/A'}</strong>
+              </p>
+              <p className="text-slate-400 text-[11px] truncate max-w-[200px]">
+                {user.department}
+              </p>
+            </div>
+
+            {/* Scannable QR Code */}
+            <div className="p-2.5 bg-white rounded-2xl shadow-lg shrink-0 flex flex-col items-center">
+              <QRCodeSVG
+                value={`SRM_EEC:${registration.ticketId}:${event._id}:${user._id}`}
+                size={95}
+                level="M"
+              />
+              <span className="text-[8px] font-mono text-slate-800 mt-1 font-bold">
+                SCAN AT ENTRY
+              </span>
+            </div>
+          </div>
+
+          {/* Instructions */}
+          <div className="text-[11px] text-slate-400 bg-blue-950/30 p-3 rounded-xl border border-blue-900/30 space-y-1">
+            <p className="font-semibold text-blue-300">Reporting Instructions:</p>
+            <p>1. Present this digital pass or printed QR code at the check-in desk 15 mins prior.</p>
+            <p>2. College ID card is mandatory for campus entry at SRM EEC Ramapuram.</p>
+            <p>3. E-Certificate of participation will be issued post-attendance verification.</p>
+          </div>
+        </div>
+
+        {/* Footer actions */}
+        <div className="px-6 py-4 bg-[#080d20] border-t border-blue-950 flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs transition-colors"
+          >
+            Close Pass
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
