@@ -162,3 +162,57 @@ export const CreateEditEventPage = () => {
   if (loading) {
     return (
       <div className="min-h-[50vh] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* Back Link */}
+      <Link
+        to="/organizer/dashboard"
+        className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        <span>Back to Organizer Dashboard</span>
+      </Link>
+
+      <div className="bg-[#0b132b]/90 border border-blue-900/50 p-6 sm:p-10 rounded-3xl shadow-2xl space-y-8">
+        <div>
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-400">
+            SRM Easwari Engineering College
+          </span>
+          <h1 className="text-2xl sm:text-3xl font-black text-white font-['Outfit'] mt-1">
+            {isEditMode ? 'Edit Event Details' : 'Publish New Symposium / Workshop'}
+          </h1>
+          <p className="text-xs text-slate-400 mt-1">
+            Set capacity, department, venues, and registration deadlines for college attendees.
+          </p>
+        </div>
+
+        {error && (
+          <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6 text-xs text-slate-200">
+          {/* Title */}
+          <div className="space-y-1.5">
+            <label className="font-bold text-slate-300 uppercase tracking-wider">
+              Event Title *
+            </label>
+            <input
+              type="text"
+              name="title"
+              required
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="e.g. CYBERBLITZ '26 - National Level Cyber Defense Symposium"
+              className="w-full px-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500"
+            />
+          </div>
+
+          {/* Department & Category */}
