@@ -308,3 +308,55 @@ export const EventDetailPage = () => {
                     <p className="text-xs font-bold text-emerald-300 flex items-center justify-center gap-1.5">
                       <CheckCircle className="w-4 h-4" />
                       <span>Registration Confirmed</span>
+                    </p>
+                    <p className="text-xs font-mono text-amber-400 font-bold">
+                      Ticket ID: {registration.ticketId}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setShowTicket(true)}
+                    className="w-full py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-lg shadow-blue-700/30"
+                  >
+                    View Digital Entry Pass (QR Code)
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleRsvp}
+                  disabled={submitting || isSoldOut}
+                  className={`w-full py-3.5 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-xl ${
+                    isSoldOut
+                      ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
+                      : 'bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-blue-600/30 active:scale-[0.98]'
+                  }`}
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Reserving Seat...</span>
+                    </>
+                  ) : isSoldOut ? (
+                    <span>Housefull / Capacity Reached</span>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4 text-amber-300" />
+                      <span>Single-Click RSVP Now</span>
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Ticket Modal */}
+      {showTicket && registration && (
+        <TicketModal
+          registration={registration}
+          onClose={() => setShowTicket(false)}
+        />
+      )}
+    </div>
+  );
+};
