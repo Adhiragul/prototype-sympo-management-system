@@ -103,3 +103,56 @@ export const EventsPage = () => {
         setSelectedCategory={setSelectedCategory}
         availableOnly={availableOnly}
         setAvailableOnly={setAvailableOnly}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        totalFound={events.length}
+      />
+
+      {/* Events Grid or States */}
+      {loading ? (
+        <div className="min-h-[40vh] flex flex-col items-center justify-center space-y-3">
+          <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+          <p className="text-xs text-slate-400">Loading SRM EEC events catalog...</p>
+        </div>
+      ) : events.length === 0 ? (
+        <div className="p-12 text-center bg-slate-900/60 border border-slate-800 rounded-3xl space-y-4 max-w-lg mx-auto my-8">
+          <AlertCircle className="w-12 h-12 text-amber-400 mx-auto" />
+          <h3 className="text-lg font-bold text-white">No Events Found</h3>
+          <p className="text-xs text-slate-400 leading-relaxed">
+            No events match your current filter criteria for "{selectedDepartment}" or category "{selectedCategory}".
+          </p>
+          <button
+            onClick={() => {
+              setSearch('');
+              setSelectedDepartment('All Departments');
+              setSelectedCategory('All Categories');
+              setAvailableOnly(false);
+            }}
+            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition-all"
+          >
+            Clear Filters & View All
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {events.map((event) => (
+            <EventCard
+              key={event._id}
+              event={event}
+              userRegistrations={userRegistrations}
+              onRsvpSuccess={handleRsvpSuccess}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Digital Ticket Modal after RSVP */}
+      {activeTicket && (
+        <TicketModal
+          registration={activeTicket}
+          onClose={() => setActiveTicket(null)}
+        />
+      )}
+    </div>
+  );
+};
