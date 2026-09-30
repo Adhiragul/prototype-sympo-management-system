@@ -50,3 +50,56 @@ export const EventsPage = () => {
         const res = await eventApi.getEvents(params);
         if (res.data.success) {
           setEvents(res.data.events);
+        }
+
+        if (isAuthenticated) {
+          const regRes = await regApi.getMyRegistrations();
+          if (regRes.data.success) {
+            setUserRegistrations(regRes.data.registrations);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching events:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const debounceTimer = setTimeout(fetchEvents, 200);
+    return () => clearTimeout(debounceTimer);
+  }, [search, selectedDepartment, selectedCategory, availableOnly, sortBy, isAuthenticated]);
+
+  const handleRsvpSuccess = (newReg, eventId) => {
+    setUserRegistrations((prev) => [...prev, newReg]);
+    setEvents((prev) =>
+      prev.map((e) => (e._id === eventId ? { ...e, seatsAvailable: e.seatsAvailable - 1 } : e))
+    );
+    setActiveTicket(newReg);
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* Page Heading */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-2 text-xs font-bold text-blue-400 uppercase tracking-wider">
+          <Calendar className="w-4 h-4" />
+          <span>SRM EEC Campus Events Directory</span>
+        </div>
+        <h1 className="text-3xl sm:text-4xl font-black text-white font-['Outfit']">
+          Symposiums, Workshops & Hackathons
+        </h1>
+        <p className="text-sm text-slate-400 max-w-3xl">
+          Browse upcoming academic and technical events hosted by college departments including Cybersecurity, Robotics & Automation, EEE, CSE, IT, and AI&DS.
+        </p>
+      </div>
+
+      {/* Filter Bar Component */}
+      <FilterBar
+        search={search}
+        setSearch={setSearch}
+        selectedDepartment={selectedDepartment}
+        setSelectedDepartment={setSelectedDepartment}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        availableOnly={availableOnly}
+        setAvailableOnly={setAvailableOnly}
