@@ -181,3 +181,49 @@ npm run dev
 
 ## 📡 REST API Reference
 
+### 🔐 Authentication (`/api/auth`)
+| Method | Endpoint | Access | Description |
+| :---: | :--- | :---: | :--- |
+| `POST` | `/api/auth/register` | Public | Register student or organizer account |
+| `POST` | `/api/auth/login` | Public | Authenticate credentials and receive JWT |
+| `GET` | `/api/auth/me` | Private | Retrieve logged-in user profile |
+
+### 📅 Events (`/api/events`)
+| Method | Endpoint | Access | Description |
+| :---: | :--- | :---: | :--- |
+| `GET` | `/api/events` | Public | List events with query filters (`department`, `category`, `search`, `availableOnly`, `sort`) |
+| `GET` | `/api/events/metadata` | Public | Retrieve list of SRM EEC departments, categories, and venues |
+| `GET` | `/api/events/:id` | Public | Get single event details with organizer information |
+| `POST` | `/api/events` | Organizer | Publish a new symposium or workshop |
+| `PUT` | `/api/events/:id` | Organizer | Update event specifications and capacity |
+| `DELETE` | `/api/events/:id` | Organizer | Remove event and associated registrations |
+
+### 🎟️ Registrations & RSVP (`/api/registrations`)
+| Method | Endpoint | Access | Description |
+| :---: | :--- | :---: | :--- |
+| `POST` | `/api/registrations/rsvp/:eventId` | Student | Single-click atomic RSVP and ticket generation |
+| `POST` | `/api/registrations/cancel/:regId` | Student | Cancel registration and restore seat count |
+| `GET` | `/api/registrations/my-registrations` | Student | List active registrations for logged-in student |
+| `GET` | `/api/registrations/status/:eventId` | Student | Check current user RSVP status for event |
+| `GET` | `/api/registrations/event/:id/attendees` | Organizer | View complete attendee roster for an event |
+| `PATCH` | `/api/registrations/:id/checkin` | Organizer | Toggle attendance check-in status (Present/Absent) |
+
+### 📤 Data Export (`/api/export`)
+| Method | Endpoint | Access | Description |
+| :---: | :--- | :---: | :--- |
+| `GET` | `/api/export/event/:eventId/csv` | Organizer | Download RFC 4180-compliant CSV attendee roster |
+| `GET` | `/api/export/event/:eventId/json` | Organizer | Download structured JSON attendee roster |
+
+### 📈 Analytics (`/api/stats`)
+| Method | Endpoint | Access | Description |
+| :---: | :--- | :---: | :--- |
+| `GET` | `/api/stats/dashboard` | Organizer | Get event counts, seat fill rates, and check-in percentages |
+
+---
+
+## 📄 License & Attribution
+
+Distributed under the **MIT License**.
+
+Developed for **SRM Easwari Engineering College (Autonomous)**  
+*Bharathi Salai, Ramapuram, Chennai - 600089, Tamil Nadu, India.*
