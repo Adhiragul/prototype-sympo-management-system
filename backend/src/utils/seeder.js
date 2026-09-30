@@ -188,3 +188,50 @@ export const seedDatabase = async () => {
         totalSeats: 200,
         seatsAvailable: 200,
         bannerUrl: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&auto=format&fit=crop&q=80',
+        tags: ['Coding', 'Algorithms', 'ACE', 'Competitive Programming', 'Paper Presentation'],
+        organizer: organizer._id,
+        contactEmail: 'ace@eec.srmrmp.edu.in',
+        contactPhone: '+91 98401 23460',
+        certificateProvided: true
+      }
+    ]);
+
+    console.log(`✅ Created ${events.length} SRM EEC Events.`);
+
+    // 3. Create Sample Registrations
+    const reg1 = await Registration.create({
+      event: events[0]._id, // CyberBlitz
+      user: student1._id, // Adhiragul S
+      ticketId: 'EEC-CYS-849201',
+      status: 'confirmed',
+      attended: true,
+      attendedAt: new Date(),
+      registeredAt: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000)
+    });
+
+    const reg2 = await Registration.create({
+      event: events[0]._id, // CyberBlitz
+      user: student2._id, // Karthik
+      ticketId: 'EEC-CYS-849202',
+      status: 'confirmed',
+      attended: false,
+      registeredAt: new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000)
+    });
+
+    const reg3 = await Registration.create({
+      event: events[0]._id, // CyberBlitz
+      user: student3._id, // Swetha
+      ticketId: 'EEC-CYS-849203',
+      status: 'confirmed',
+      attended: true,
+      attendedAt: new Date(),
+      registeredAt: new Date(now.getTime() - 12 * 60 * 60 * 1000)
+    });
+
+    // Registrations for Robotics Workshop
+    await Registration.create({
+      event: events[1]._id,
+      user: student1._id,
+      ticketId: 'EEC-ROB-190341',
+      status: 'confirmed',
+      attended: false,
