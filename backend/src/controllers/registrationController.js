@@ -144,3 +144,52 @@ export const cancelRsvp = async (req, res, next) => {
     await registration.save();
 
     // Increment available seats back on the event
+    await Event.findByIdAndUpdate(registration.event._id, {
+      $inc: { seatsAvailable: 1 }
+    });
+
+    res.json({
+      success: true,
+      message: 'Registration cancelled successfully. Seat has been released.'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get current user's registered events
+// @route   GET /api/registrations/my-registrations
+// @access  Private
+export const getMyRegistrations = async (req, res, next) => {
+  try {
+    const registrations = await Registration.find({
+      user: req.user._id,
+      status: 'confirmed'
+    })
+      .populate({
+        path: 'event',
+        populate: { path: 'organizer', select: 'name email phone' }
+      })
+      .sort({ registeredAt: -1 });
+
+    res.json({
+      success: true,
+      count: registrations.length,
+      registrations
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Check RSVP status for a specific event by current user
+// @route   GET /api/registrations/status/:eventId
+// @access  Private
+export const checkRsvpStatus = async (req, res, next) => {
+  try {
+    const registration = await Registration.findOne({
+      event: req.params.eventId,
+      user: req.user._id,
+      status: 'confirmed'
+    });
+
