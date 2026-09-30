@@ -159,3 +159,57 @@ export const RegisterPage = () => {
             <div className="space-y-1">
               <label className="font-bold text-slate-300 uppercase tracking-wider text-[11px]">
                 College Email *
+              </label>
+              <input
+                type="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="adhiragul@eec.srmrmp.edu.in"
+                className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* Password */}
+          <div className="space-y-1">
+            <label className="font-bold text-slate-300 uppercase tracking-wider text-[11px]">
+              Password (min 6 characters) *
+            </label>
+            <input
+              type="password"
+              name="password"
+              required
+              minLength={6}
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="••••••••"
+              className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+            />
+          </div>
+
+          {/* Department & Roll No */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="font-bold text-slate-300 uppercase tracking-wider text-[11px]">
+                Department *
+              </label>
+              <select
+                name="department"
+                value={formData.department}
+                onChange={handleChange}
+                className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              >
+                {DEPARTMENTS.map((dept) => (
+                  <option key={dept} value={dept}>
+                    {dept}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-300 uppercase tracking-wider text-[11px]">
+                Roll No / Register No
+              </label>
