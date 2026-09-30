@@ -49,3 +49,55 @@ export const EventDetailPage = () => {
           }
         }
       } catch (err) {
+        setError('Failed to load event details.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEventData();
+  }, [id, isAuthenticated]);
+
+  const handleRsvp = async () => {
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: `/events/${id}` } });
+      return;
+    }
+
+    setSubmitting(true);
+    setError('');
+
+    try {
+      const res = await regApi.rsvp(id);
+      if (res.data.success) {
+        setRegistration(res.data.registration);
+        setEvent((prev) => ({
+          ...prev,
+          seatsAvailable: prev.seatsAvailable - 1
+        }));
+
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+
+        setShowTicket(true);
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'RSVP failed. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-3">
+        <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+        <p className="text-xs text-slate-400">Loading symposium specifications...</p>
+      </div>
+    );
+  }
+
+  if (!event) {
