@@ -136,8 +136,8 @@ The application includes pre-loaded demo accounts for instant evaluation:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/Adhiragul/Symposium-Management-System.git
-cd Symposium-Management-System
+git clone https://github.com/Adhiragul/prototype-sympo-management-system.git
+cd prototype-sympo-management-system
 ```
 
 ### 2. Install All Dependencies
@@ -154,7 +154,11 @@ npm install
 cd ..
 ```
 
-### 3. Run Application
+### 3. Configure Backend Authentication
+
+Copy `backend/.env.example` to `backend/.env` and replace `JWT_SECRET` with a unique random value of at least 32 characters. The backend will refuse to start without it. `MONGODB_URI` is optional; without it, the app uses a temporary in-memory database.
+
+### 4. Run Application
 
 #### Option A: Unified Dev Server (Recommended)
 From the project root:
