@@ -204,3 +204,55 @@ export const EventDetailPage = () => {
             <div className="bg-[#0b132b]/60 border border-slate-800 rounded-2xl p-4 flex items-center gap-2 flex-wrap">
               <Tag className="w-4 h-4 text-blue-400 shrink-0" />
               <span className="text-xs text-slate-400 font-semibold mr-1">Topics:</span>
+              {event.tags.map((tag, i) => (
+                <span key={i} className="px-2.5 py-0.5 rounded-lg text-xs bg-slate-800 text-slate-300 border border-slate-700">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Organizer Contact Info */}
+          <div className="bg-[#0b132b]/60 border border-slate-800 rounded-3xl p-6 space-y-3">
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider">
+              Host & Contact Coordination
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
+              <div className="flex items-center gap-2">
+                <Users className="w-4 h-4 text-cyan-400" />
+                <span>Organized by: <strong>{event.clubName}</strong></span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-blue-400" />
+                <span>{event.contactEmail || 'events@eec.srmrmp.edu.in'}</span>
+              </div>
+              {event.contactPhone && (
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-green-400" />
+                  <span>{event.contactPhone}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Right 1 Col: Live Seat Meter & RSVP Action Card */}
+        <div className="space-y-6">
+          <div className="bg-gradient-to-b from-[#0c1638] to-[#0a1128] border border-blue-800/50 rounded-3xl p-6 shadow-2xl space-y-6 sticky top-24">
+            {/* Live Seat Availability */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-semibold text-slate-400 flex items-center gap-1.5">
+                  <Users className="w-4 h-4 text-cyan-400" />
+                  Live Seat Capacity
+                </span>
+                <span className={`font-bold ${event.seatsAvailable <= 5 ? 'text-rose-400' : 'text-slate-200'}`}>
+                  {isSoldOut ? 'Sold Out' : `${event.seatsAvailable} of ${event.totalSeats} seats left`}
+                </span>
+              </div>
+
+              <div className="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all duration-500 ${
+                    isSoldOut
+                      ? 'bg-rose-500'
