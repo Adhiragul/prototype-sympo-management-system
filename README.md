@@ -135,3 +135,49 @@ The application includes pre-loaded demo accounts for instant evaluation:
 - [Git](https://git-scm.com/)
 
 ### 1. Clone the Repository
+```bash
+git clone https://github.com/Adhiragul/Symposium-Management-System.git
+cd Symposium-Management-System
+```
+
+### 2. Install All Dependencies
+```bash
+# Install backend dependencies
+cd backend
+npm install
+
+# Install frontend dependencies
+cd ../frontend
+npm install
+
+# Return to root directory
+cd ..
+```
+
+### 3. Run Application
+
+#### Option A: Unified Dev Server (Recommended)
+From the project root:
+```bash
+npm run dev
+```
+- Frontend: **http://localhost:3000**
+- Backend API: **http://localhost:5000**
+
+#### Option B: Run Separately in Two Terminals
+**Terminal 1 (Backend):**
+```bash
+cd backend
+npm run dev
+```
+
+**Terminal 2 (Frontend):**
+```bash
+cd frontend
+npm run dev
+```
+
+---
+
+## 📡 REST API Reference
+
