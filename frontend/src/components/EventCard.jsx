@@ -100,3 +100,54 @@ export const EventCard = ({ event, onRsvpSuccess, userRegistrations = [] }) => {
     year: 'numeric'
   });
   const formattedTime = eventDateObj.toLocaleTimeString('en-IN', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  return (
+    <div className="glass-card rounded-2xl overflow-hidden flex flex-col h-full group bg-slate-900/60 border border-slate-800 hover:border-blue-500/40 transition-all duration-300">
+      {/* Banner & Category Overlay */}
+      <div className="relative h-48 w-full overflow-hidden bg-slate-950">
+        <img
+          src={event.bannerUrl || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&auto=format&fit=crop&q=80'}
+          alt={event.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1128] via-transparent to-black/30" />
+
+        {/* Top Badges */}
+        <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+          <span className="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-600/90 text-white backdrop-blur-md shadow-md">
+            {event.category}
+          </span>
+          <span className={`px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-md border ${getDeptColor(event.department)}`}>
+            {event.department === 'Robotics and Automation' ? 'Robotics & Auto' : event.department}
+          </span>
+        </div>
+
+        {/* Club Name Pill */}
+        <div className="absolute bottom-2 left-3">
+          <span className="text-[11px] font-medium text-slate-300 bg-slate-900/80 px-2 py-0.5 rounded backdrop-blur-sm border border-slate-700/50">
+            {event.clubName}
+          </span>
+        </div>
+      </div>
+
+      {/* Card Content */}
+      <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+        <div>
+          <Link to={`/events/${event._id}`}>
+            <h3 className="font-bold text-lg text-white group-hover:text-blue-400 transition-colors line-clamp-2 leading-snug">
+              {event.title}
+            </h3>
+          </Link>
+          <p className="text-slate-400 text-xs mt-2 line-clamp-2 leading-relaxed">
+            {event.description}
+          </p>
+        </div>
+
+        {/* Event Meta Details */}
+        <div className="space-y-2 text-xs text-slate-300 border-t border-slate-800/80 pt-3">
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-1.5 text-slate-400">
