@@ -40,3 +40,46 @@ export const register = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
+      message: 'Account registered successfully!',
+      token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        department: user.department,
+        collegeName: user.collegeName,
+        rollNo: user.rollNo,
+        year: user.year,
+        phone: user.phone
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Authenticate user & get token
+// @route   POST /api/auth/login
+// @access  Public
+export const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide both email and password.'
+      });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials. User not found.'
+      });
+    }
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
