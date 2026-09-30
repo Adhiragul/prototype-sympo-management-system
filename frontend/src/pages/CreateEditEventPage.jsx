@@ -52,3 +52,58 @@ const VENUES = [
   'Virtual (Google Meet / Zoom)'
 ];
 
+const SAMPLE_BANNERS = [
+  { label: 'Cybersecurity / CTF', url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&auto=format&fit=crop&q=80' },
+  { label: 'Robotics & Hardware', url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1200&auto=format&fit=crop&q=80' },
+  { label: 'Electrical / Smart Grid', url: 'https://images.unsplash.com/photo-1558441719-8b489c63f7d1?w=1200&auto=format&fit=crop&q=80' },
+  { label: 'AI & Data Science', url: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&auto=format&fit=crop&q=80' },
+  { label: 'Coding / Hackathon', url: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&auto=format&fit=crop&q=80' }
+];
+
+export const CreateEditEventPage = () => {
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const [loading, setLoading] = useState(isEditMode);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    department: user?.department || 'Cybersecurity',
+    category: 'Symposium',
+    clubName: 'CyberDef Club EEC',
+    venue: 'TRP Auditorium',
+    mode: 'In-Person',
+    eventDate: '',
+    registrationDeadline: '',
+    totalSeats: 100,
+    bannerUrl: SAMPLE_BANNERS[0].url,
+    tags: 'Cybersecurity, Workshop, EEC',
+    contactEmail: user?.email || 'events@eec.srmrmp.edu.in',
+    contactPhone: user?.phone || '+91 98401 23456',
+    certificateProvided: true
+  });
+
+  useEffect(() => {
+    if (isEditMode) {
+      const loadEvent = async () => {
+        try {
+          const res = await eventApi.getEventById(id);
+          if (res.data.success) {
+            const ev = res.data.event;
+            setFormData({
+              title: ev.title,
+              description: ev.description,
+              department: ev.department,
+              category: ev.category,
+              clubName: ev.clubName,
+              venue: ev.venue,
+              mode: ev.mode,
+              eventDate: ev.eventDate ? new Date(ev.eventDate).toISOString().slice(0, 16) : '',
+              registrationDeadline: ev.registrationDeadline ? new Date(ev.registrationDeadline).toISOString().slice(0, 16) : '',
+              totalSeats: ev.totalSeats,
+              bannerUrl: ev.bannerUrl,
