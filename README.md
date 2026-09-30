@@ -89,3 +89,49 @@ The application includes pre-loaded demo accounts for instant evaluation:
 > ⚡ *Tip: Use the **Quick Demo** switcher pills located directly on the top navigation bar or the login screen for 1-click credential auto-fill!*
 
 ---
+
+## 🏢 Campus Venues Directory
+
+- **TRP Auditorium**: 1,200+ capacity auditorium with stage lighting and line-array audio for national symposium keynotes.
+- **EEC Mini Auditorium**: Block 2 hall for technical paper presentations and guest seminars.
+- **Cyber Defense Lab (CS)**: High-security isolated network lab with capture-the-flag simulation rigs.
+- **Robotics & Automation Lab (RA)**: Industrial robotic arms, ROS 2 workstations, and LiDAR test tracks.
+- **Power Electronics Lab (EEE)**: Smart grid testbeds, EV motor controllers, and battery management systems.
+- **Hi-Tech Seminar Hall - Block 5**: Modern hybrid seminar auditorium with live broadcast equipment.
+
+---
+
+## 🛠️ Technology Stack Architecture
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        FRONTEND (React 19 + Vite)                      │
+│   • Tailwind CSS (SRM Navy & Gold Theme)   • Lucide React Icons        │
+│   • React Router DOM v7                    • Canvas Confetti           │
+│   • Axios (Bearer Interceptor)             • QRCode.React              │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ HTTP / REST (JSON + JWT)
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                     BACKEND API (Node.js + Express)                    │
+│   • JWT Auth & RBAC Middleware             • Concurrency Lock ($inc)   │
+│   • Json2csv (RFC 4180 Stream)             • Auto-Seeder Engine        │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │ Mongoose ODM
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        DATABASE (MongoDB Engine)                       │
+│   • MongoDB Atlas / Local MongoDB          • MongoMemoryServer Fallback│
+│   • Schemas: Users, Events, Registrations                              │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🚀 Quick Start Guide
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18, v20, or v22+)
+- [Git](https://git-scm.com/)
+
+### 1. Clone the Repository
