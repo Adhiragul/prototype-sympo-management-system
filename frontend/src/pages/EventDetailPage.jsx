@@ -101,3 +101,55 @@ export const EventDetailPage = () => {
   }
 
   if (!event) {
+    return (
+      <div className="max-w-md mx-auto my-16 p-8 bg-slate-900 border border-slate-800 rounded-3xl text-center space-y-4">
+        <AlertCircle className="w-12 h-12 text-rose-500 mx-auto" />
+        <h2 className="text-xl font-bold text-white">Event Not Found</h2>
+        <p className="text-xs text-slate-400">The requested event could not be found or has been removed.</p>
+        <Link to="/events" className="inline-block px-4 py-2 bg-blue-600 rounded-xl text-xs font-semibold text-white">
+          Back to Events Catalog
+        </Link>
+      </div>
+    );
+  }
+
+  const isSoldOut = event.seatsAvailable <= 0;
+  const isRegistered = !!registration;
+  const eventDateObj = new Date(event.eventDate);
+  const formattedDate = eventDateObj.toLocaleDateString('en-IN', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+  const formattedTime = eventDateObj.toLocaleTimeString('en-IN', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  const deadlineObj = new Date(event.registrationDeadline);
+  const formattedDeadline = deadlineObj.toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+
+  const total = event.totalSeats || 100;
+  const booked = total - event.seatsAvailable;
+  const percentFilled = Math.min(100, Math.round((booked / total) * 100));
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* Back Link */}
+      <Link
+        to="/events"
+        className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        <span>Back to Events</span>
+      </Link>
+
+      {/* Hero Banner Header */}
+      <div className="relative rounded-3xl overflow-hidden border border-blue-900/40 bg-slate-950 shadow-2xl">
+        <img
+          src={event.bannerUrl}
