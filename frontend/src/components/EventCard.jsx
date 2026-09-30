@@ -151,3 +151,54 @@ export const EventCard = ({ event, onRsvpSuccess, userRegistrations = [] }) => {
         <div className="space-y-2 text-xs text-slate-300 border-t border-slate-800/80 pt-3">
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-1.5 text-slate-400">
+              <Calendar className="w-3.5 h-3.5 text-blue-400" />
+              <span>{formattedDate} • {formattedTime}</span>
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-1.5 text-slate-400">
+              <MapPin className="w-3.5 h-3.5 text-red-400" />
+              <span className="truncate max-w-[200px]">{event.venue}</span>
+            </span>
+            <span className="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">
+              {event.mode}
+            </span>
+          </div>
+        </div>
+
+        {/* Live Seat Availability Meter */}
+        <div className="space-y-1.5 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80">
+          <div className="flex items-center justify-between text-xs">
+            <span className="flex items-center gap-1 font-medium text-slate-400">
+              <Users className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Seat Availability</span>
+            </span>
+            <span className={`font-semibold ${available <= 5 ? 'text-rose-400 font-bold' : 'text-slate-200'}`}>
+              {isSoldOut ? (
+                <span className="text-rose-400 font-bold">Sold Out</span>
+              ) : (
+                <span>{available} of {total} left</span>
+              )}
+            </span>
+          </div>
+
+          {/* Progress bar */}
+          <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+            <div
+              className={`h-full transition-all duration-500 rounded-full ${
+                isSoldOut
+                  ? 'bg-rose-500'
+                  : available <= 10
+                  ? 'bg-amber-500'
+                  : 'bg-gradient-to-r from-blue-500 to-indigo-500'
+              }`}
+              style={{ width: `${percentFilled}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Error message if RSVP failed */}
+        {rsvpError && (
+          <p className="text-xs text-rose-400 flex items-center gap-1">
+            <ShieldAlert className="w-3.5 h-3.5 shrink-0" />
