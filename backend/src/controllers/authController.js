@@ -4,7 +4,7 @@ import User from '../models/User.js';
 const generateToken = (id) => {
   return jwt.sign(
     { id },
-    process.env.JWT_SECRET || 'srm_easwari_engineering_college_symposphere_super_secret_key_2026',
+    process.env.JWT_SECRET,
     { expiresIn: '30d' }
   );
 };
