@@ -235,3 +235,51 @@ export const seedDatabase = async () => {
       ticketId: 'EEC-ROB-190341',
       status: 'confirmed',
       attended: false,
+      registeredAt: new Date(now.getTime() - 20 * 60 * 60 * 1000)
+    });
+
+    await Registration.create({
+      event: events[1]._id,
+      user: student2._id,
+      ticketId: 'EEC-ROB-190342',
+      status: 'confirmed',
+      attended: true,
+      attendedAt: new Date(),
+      registeredAt: new Date(now.getTime() - 18 * 60 * 60 * 1000)
+    });
+
+    // Registrations for EEE Hackathon
+    await Registration.create({
+      event: events[2]._id,
+      user: student3._id,
+      ticketId: 'EEC-EEE-552109',
+      status: 'confirmed',
+      attended: false,
+      registeredAt: new Date(now.getTime() - 15 * 60 * 60 * 1000)
+    });
+
+    await Registration.create({
+      event: events[2]._id,
+      user: student4._id,
+      ticketId: 'EEC-EEE-552110',
+      status: 'confirmed',
+      attended: false,
+      registeredAt: new Date(now.getTime() - 10 * 60 * 60 * 1000)
+    });
+
+    console.log('✅ Created Demo Registrations with unique tickets.');
+    console.log('🎉 Seeding successfully completed!');
+  } catch (error) {
+    console.error('❌ Seeding Error:', error);
+  }
+};
+
+// If run directly from CLI
+if (process.argv[1]?.endsWith('seeder.js')) {
+  (async () => {
+    await connectDB();
+    await seedDatabase();
+    await mongoose.disconnect();
+    process.exit(0);
+  })();
+}
