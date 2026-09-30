@@ -242,3 +242,52 @@ export const getEventAttendees = async (req, res, next) => {
         title: event.title,
         department: event.department,
         totalSeats: event.totalSeats,
+        seatsAvailable: event.seatsAvailable,
+        eventDate: event.eventDate
+      },
+      attendees
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Toggle attendance check-in for an attendee
+// @route   PATCH /api/registrations/:id/checkin
+// @access  Private (Organizer or Admin)
+export const toggleCheckIn = async (req, res, next) => {
+  try {
+    const registration = await Registration.findById(req.params.id).populate('event');
+
+    if (!registration) {
+      return res.status(404).json({
+        success: false,
+        message: 'Registration not found'
+      });
+    }
+
+    // Verify organizer or admin
+    if (
+      registration.event.organizer.toString() !== req.user._id.toString() &&
+      req.user.role !== 'admin'
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized to mark attendance for this event.'
+      });
+    }
+
+    registration.attended = !registration.attended;
+    registration.attendedAt = registration.attended ? new Date() : null;
+    await registration.save();
+
+    res.json({
+      success: true,
+      message: `Attendee check-in marked as ${registration.attended ? 'Present' : 'Absent'}`,
+      attended: registration.attended,
+      attendedAt: registration.attendedAt
+    });
+  } catch (error) {
+    next(error);
+  }
+};
