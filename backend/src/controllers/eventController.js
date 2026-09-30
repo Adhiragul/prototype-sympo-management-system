@@ -187,3 +187,50 @@ export const updateEvent = async (req, res, next) => {
 
     if (!event) {
       return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+
+    // Check ownership if not admin
+    if (event.organizer.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'You are not authorized to update this event.'
+      });
+    }
+
+    // Handle seat capacity change carefully
+    if (req.body.totalSeats !== undefined) {
+      const newTotalSeats = Number(req.body.totalSeats);
+      const confirmedCount = await Registration.countDocuments({
+        event: event._id,
+        status: 'confirmed'
+      });
+
+      if (newTotalSeats < confirmedCount) {
+        return res.status(400).json({
+          success: false,
+          message: `Cannot decrease total seats to ${newTotalSeats}. There are already ${confirmedCount} confirmed registrations.`
+        });
+      }
+
+      req.body.seatsAvailable = newTotalSeats - confirmedCount;
+    }
+
+    if (req.body.tags && typeof req.body.tags === 'string') {
+      req.body.tags = req.body.tags.split(',').map(t => t.trim());
+    }
+
+    event = await Event.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+
+    res.json({
+      success: true,
+      message: 'Event updated successfully!',
+      event
+    });
+  } catch (error) {
+    next(error);
