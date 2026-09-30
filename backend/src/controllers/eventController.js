@@ -234,3 +234,51 @@ export const updateEvent = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+// @desc    Delete an event
+// @route   DELETE /api/events/:id
+// @access  Private (Organizer of this event or Admin)
+export const deleteEvent = async (req, res, next) => {
+  try {
+    const event = await Event.findById(req.params.id);
+
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+
+    if (event.organizer.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'You are not authorized to delete this event.'
+      });
+    }
+
+    // Remove event and associated registrations
+    await Event.findByIdAndDelete(req.params.id);
+    await Registration.deleteMany({ event: req.params.id });
+
+    res.json({
+      success: true,
+      message: 'Event and registrations removed successfully.'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get metadata (Departments, Categories, Venues)
+// @route   GET /api/events/metadata
+// @access  Public
+export const getEventMetadata = async (req, res) => {
+  res.json({
+    success: true,
+    departments: DEPARTMENTS,
+    categories: CATEGORIES,
+    venues: VENUES
+  });
+};
