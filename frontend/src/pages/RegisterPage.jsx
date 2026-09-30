@@ -213,3 +213,57 @@ export const RegisterPage = () => {
               <label className="font-bold text-slate-300 uppercase tracking-wider text-[11px]">
                 Roll No / Register No
               </label>
+              <input
+                type="text"
+                name="rollNo"
+                value={formData.rollNo}
+                onChange={handleChange}
+                placeholder="310621205001"
+                className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* College Name */}
+          <div className="space-y-1">
+            <label className="font-bold text-slate-300 uppercase tracking-wider text-[11px]">
+              Institution
+            </label>
+            <input
+              type="text"
+              name="collegeName"
+              value={formData.collegeName}
+              onChange={handleChange}
+              className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-300 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-blue-700/25 flex items-center justify-center gap-2 transition-all mt-3"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Creating Account...</span>
+              </>
+            ) : (
+              <>
+                <UserPlus className="w-4 h-4" />
+                <span>Register & Access Portal</span>
+              </>
+            )}
+          </button>
+        </form>
+
+        <p className="text-center text-xs text-slate-400">
+          Already have an account?{' '}
+          <Link to="/login" className="text-blue-400 font-bold hover:underline">
+            Sign In here
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+};
