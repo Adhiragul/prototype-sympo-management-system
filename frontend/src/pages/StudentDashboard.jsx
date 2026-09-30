@@ -96,3 +96,53 @@ export const StudentDashboard = () => {
             <Ticket className="w-5 h-5 text-amber-400" />
             <span>My Registered Symposiums & Workshops ({registrations.length})</span>
           </h2>
+        </div>
+
+        {loading ? (
+          <div className="min-h-[30vh] flex flex-col items-center justify-center space-y-3">
+            <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+            <p className="text-xs text-slate-400">Loading your registration passes...</p>
+          </div>
+        ) : registrations.length === 0 ? (
+          <div className="p-12 text-center bg-slate-900/60 border border-slate-800 rounded-3xl space-y-4 max-w-md mx-auto my-6">
+            <Ticket className="w-12 h-12 text-slate-600 mx-auto" />
+            <h3 className="text-base font-bold text-white">No Active Registrations</h3>
+            <p className="text-xs text-slate-400">
+              You haven't registered for any events yet. Explore upcoming symposiums across SRM EEC departments.
+            </p>
+            <Link
+              to="/events"
+              className="inline-block px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-500"
+            >
+              Explore Events Catalog
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {registrations.map((reg) => {
+              const event = reg.event || {};
+              const eventDateObj = new Date(event.eventDate || reg.registeredAt);
+              const formattedDate = eventDateObj.toLocaleDateString('en-IN', {
+                weekday: 'short',
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+              });
+              const formattedTime = eventDateObj.toLocaleTimeString('en-IN', {
+                hour: '2-digit',
+                minute: '2-digit'
+              });
+
+              return (
+                <div
+                  key={reg._id}
+                  className="glass-card rounded-2xl overflow-hidden border border-blue-950 bg-slate-900/80 p-5 space-y-4 flex flex-col justify-between"
+                >
+                  <div className="space-y-3">
+                    {/* Top row: Category & Ticket ID */}
+                    <div className="flex items-center justify-between">
+                      <span className="px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-blue-600 text-white">
+                        {event.category || 'Symposium'}
+                      </span>
+                      <span className="text-xs font-mono font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-lg border border-amber-400/20">
+                        {reg.ticketId}
