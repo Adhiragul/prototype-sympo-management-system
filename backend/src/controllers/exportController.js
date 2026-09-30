@@ -99,3 +99,54 @@ export const exportAttendeesJson = async (req, res, next) => {
         message: 'You are not authorized to export this attendee list.'
       });
     }
+
+    const registrations = await Registration.find({
+      event: req.params.eventId,
+      status: 'confirmed'
+    })
+      .populate('user', 'name email department collegeName rollNo year phone')
+      .sort({ registeredAt: 1 });
+
+    const exportPayload = {
+      institution: 'SRM Easwari Engineering College (Autonomous)',
+      exportedAt: new Date().toISOString(),
+      event: {
+        id: event._id,
+        title: event.title,
+        department: event.department,
+        category: event.category,
+        clubName: event.clubName,
+        venue: event.venue,
+        eventDate: event.eventDate,
+        totalSeats: event.totalSeats,
+        confirmedAttendees: registrations.length
+      },
+      attendees: registrations.map((reg, index) => ({
+        index: index + 1,
+        ticketId: reg.ticketId,
+        student: {
+          name: reg.user?.name,
+          email: reg.user?.email,
+          department: reg.user?.department,
+          collegeName: reg.user?.collegeName,
+          rollNo: reg.user?.rollNo,
+          year: reg.user?.year,
+          phone: reg.user?.phone
+        },
+        registeredAt: reg.registeredAt,
+        attended: reg.attended,
+        attendedAt: reg.attendedAt
+      }))
+    };
+
+    const safeTitle = sanitizeFilename(event.title);
+    const dateStr = new Date().toISOString().split('T')[0];
+    const filename = `SRM_EEC_${safeTitle}_Attendees_${dateStr}.json`;
+
+    res.header('Content-Type', 'application/json');
+    res.attachment(filename);
+    return res.send(JSON.stringify(exportPayload, null, 2));
+  } catch (error) {
+    next(error);
+  }
+};
