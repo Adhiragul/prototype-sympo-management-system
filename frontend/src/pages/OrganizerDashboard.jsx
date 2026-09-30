@@ -187,3 +187,50 @@ export const OrganizerDashboard = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs text-slate-300">
                 <thead className="bg-[#070d1e] text-slate-400 uppercase text-[10px] tracking-wider border-b border-blue-950">
+                  <tr>
+                    <th className="py-3.5 px-4">Event Details</th>
+                    <th className="py-3.5 px-4">Department & Club</th>
+                    <th className="py-3.5 px-4">Date & Venue</th>
+                    <th className="py-3.5 px-4">Seat Availability</th>
+                    <th className="py-3.5 px-4 text-center">Attendee Roster</th>
+                    <th className="py-3.5 px-4 text-center">Export Data</th>
+                    <th className="py-3.5 px-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/80">
+                  {events.map((event) => {
+                    const booked = event.totalSeats - event.seatsAvailable;
+                    const percent = Math.round((booked / event.totalSeats) * 100);
+                    const eventDate = new Date(event.eventDate).toLocaleDateString('en-IN', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric'
+                    });
+
+                    return (
+                      <tr key={event._id} className="hover:bg-slate-800/40 transition-colors">
+                        {/* Title & Category */}
+                        <td className="py-4 px-4 font-medium max-w-xs">
+                          <span className="inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-blue-600 text-white mb-1">
+                            {event.category}
+                          </span>
+                          <Link
+                            to={`/events/${event._id}`}
+                            className="block text-white font-bold hover:text-blue-400 transition-colors line-clamp-1 text-sm"
+                          >
+                            {event.title}
+                          </Link>
+                        </td>
+
+                        {/* Dept & Club */}
+                        <td className="py-4 px-4 whitespace-nowrap">
+                          <p className="font-semibold text-slate-200">{event.department}</p>
+                          <p className="text-[11px] text-slate-400">{event.clubName}</p>
+                        </td>
+
+                        {/* Date & Venue */}
+                        <td className="py-4 px-4 whitespace-nowrap">
+                          <div className="flex items-center gap-1.5 text-slate-200">
+                            <Calendar className="w-3.5 h-3.5 text-blue-400" />
+                            <span>{eventDate}</span>
+                          </div>
