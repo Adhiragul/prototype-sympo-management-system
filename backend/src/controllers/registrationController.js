@@ -95,3 +95,52 @@ export const rsvpEvent = async (req, res, next) => {
         success: true,
         message: '🎉 RSVP Successful! Your seat has been reserved.',
         registration,
+        seatsRemaining: updatedEvent.seatsAvailable
+      });
+    } catch (createErr) {
+      // Rollback seat count if registration creation failed (e.g. duplicate key)
+      await Event.findByIdAndUpdate(eventId, { $inc: { seatsAvailable: 1 } });
+      throw createErr;
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Cancel an RSVP and reclaim the seat
+// @route   POST /api/registrations/cancel/:registrationId
+// @access  Private
+export const cancelRsvp = async (req, res, next) => {
+  try {
+    const registration = await Registration.findById(req.params.registrationId).populate('event');
+
+    if (!registration) {
+      return res.status(404).json({
+        success: false,
+        message: 'Registration record not found.'
+      });
+    }
+
+    // Check authorization: user themselves or admin
+    if (
+      registration.user.toString() !== req.user._id.toString() &&
+      req.user.role !== 'admin'
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized to cancel this registration.'
+      });
+    }
+
+    if (registration.status === 'cancelled') {
+      return res.status(400).json({
+        success: false,
+        message: 'This registration is already cancelled.'
+      });
+    }
+
+    // Mark as cancelled or delete
+    registration.status = 'cancelled';
+    await registration.save();
+
+    // Increment available seats back on the event
