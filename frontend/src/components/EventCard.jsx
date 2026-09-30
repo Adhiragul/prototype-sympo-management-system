@@ -202,3 +202,55 @@ export const EventCard = ({ event, onRsvpSuccess, userRegistrations = [] }) => {
         {rsvpError && (
           <p className="text-xs text-rose-400 flex items-center gap-1">
             <ShieldAlert className="w-3.5 h-3.5 shrink-0" />
+            <span>{rsvpError}</span>
+          </p>
+        )}
+
+        {/* Action Buttons */}
+        <div className="pt-2 flex items-center gap-2">
+          {isRegistered ? (
+            <Link
+              to="/my-registrations"
+              className="w-full py-2 px-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-sm"
+            >
+              <CheckCircle className="w-4 h-4" />
+              <span>Registered (Ticket: {existingReg?.ticketId || 'Active'})</span>
+            </Link>
+          ) : (
+            <button
+              onClick={handleSingleClickRsvp}
+              disabled={submitting || isSoldOut}
+              className={`w-full py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all duration-200 ${
+                isSoldOut
+                  ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700/50'
+                  : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-700/25 active:scale-[0.98]'
+              }`}
+            >
+              {submitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Reserving Seat...</span>
+                </>
+              ) : isSoldOut ? (
+                <span>Housefull / Sold Out</span>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 text-amber-300" />
+                  <span>Single-Click RSVP</span>
+                </>
+              )}
+            </button>
+          )}
+
+          <Link
+            to={`/events/${event._id}`}
+            className="p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition-colors"
+            title="View full details"
+          >
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
