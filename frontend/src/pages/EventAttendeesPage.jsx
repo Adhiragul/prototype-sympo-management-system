@@ -250,3 +250,54 @@ export const EventAttendeesPage = () => {
                           {att.user?.rollNo || '-'}
                         </td>
 
+                        {/* Department */}
+                        <td className="py-3.5 px-4">
+                          <p className="font-semibold text-slate-300">{att.user?.department}</p>
+                          <p className="text-[10px] text-slate-500 truncate max-w-[180px]">
+                            {att.user?.collegeName || 'SRM Easwari Engineering College'}
+                          </p>
+                        </td>
+
+                        {/* Registered At */}
+                        <td className="py-3.5 px-4 text-slate-400 whitespace-nowrap">
+                          {regDate}
+                        </td>
+
+                        {/* Check-in Toggle */}
+                        <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                          <button
+                            onClick={() => handleToggleCheckIn(att._id)}
+                            disabled={togglingId === att._id}
+                            className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 mx-auto transition-all ${
+                              att.attended
+                                ? 'bg-emerald-600/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-600/30'
+                                : 'bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 hover:text-white'
+                            }`}
+                          >
+                            {togglingId === att._id ? (
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            ) : att.attended ? (
+                              <>
+                                <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                                <span>Present</span>
+                              </>
+                            ) : (
+                              <>
+                                <UserCheck className="w-3.5 h-3.5 text-slate-500" />
+                                <span>Mark Present</span>
+                              </>
+                            )}
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
