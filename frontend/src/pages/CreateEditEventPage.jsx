@@ -380,3 +380,58 @@ export const CreateEditEventPage = () => {
               type="url"
               name="bannerUrl"
               value={formData.bannerUrl}
+              onChange={handleChange}
+              className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+            />
+            {/* Quick banner presets */}
+            <div className="flex items-center gap-2 overflow-x-auto pt-1">
+              <span className="text-[10px] text-slate-400 shrink-0">Sample Images:</span>
+              {SAMPLE_BANNERS.map((b, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setFormData((prev) => ({ ...prev, bannerUrl: b.url }))}
+                  className="px-2 py-1 bg-slate-800 hover:bg-slate-700 rounded-lg text-[10px] text-slate-300 shrink-0 border border-slate-700"
+                >
+                  {b.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Tags */}
+          <div className="space-y-1.5">
+            <label className="font-bold text-slate-300 uppercase tracking-wider">
+              Tags (comma-separated)
+            </label>
+            <input
+              type="text"
+              name="tags"
+              value={formData.tags}
+              onChange={handleChange}
+              placeholder="e.g. Cybersecurity, ROS2, Smart Grid, AI, Hackathon"
+              className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+            />
+          </div>
+
+          {/* Contact Details */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-300 uppercase tracking-wider">
+                Coordinator Email
+              </label>
+              <input
+                type="email"
+                name="contactEmail"
+                value={formData.contactEmail}
+                onChange={handleChange}
+                className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-300 uppercase tracking-wider">
+                Coordinator Phone
+              </label>
+              <input
+                type="text"
