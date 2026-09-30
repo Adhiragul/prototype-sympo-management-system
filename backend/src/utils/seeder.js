@@ -93,3 +93,50 @@ export const seedDatabase = async () => {
       {
         title: "CYBERBLITZ '26 - National Level Cyber Defense & Ethical Hacking Symposium",
         description:
+          "The premier annual symposium of SRM Easwari Engineering College's Department of Cybersecurity. Featuring live capture-the-flag (CTF), reverse engineering, threat hunting sessions, and a keynote by top CERT-In security researchers.",
+        department: 'Cybersecurity',
+        category: 'Symposium',
+        clubName: 'CyberDef Club EEC',
+        venue: 'TRP Auditorium',
+        mode: 'In-Person',
+        eventDate: nextWeek,
+        endDate: new Date(nextWeek.getTime() + 6 * 60 * 60 * 1000),
+        registrationDeadline: new Date(nextWeek.getTime() - 24 * 60 * 60 * 1000),
+        totalSeats: 150,
+        seatsAvailable: 147, // 3 registrations seeded
+        bannerUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&auto=format&fit=crop&q=80',
+        tags: ['Cybersecurity', 'CTF', 'Ethical Hacking', 'Symposium', 'Network Security'],
+        organizer: organizer._id,
+        contactEmail: 'cyberdef@eec.srmrmp.edu.in',
+        contactPhone: '+91 98401 23456',
+        certificateProvided: true
+      },
+      {
+        title: 'Industrial Robotics & ROS 2 (Robot Operating System) Hands-on Workshop',
+        description:
+          'Deep dive into autonomous mobile robotics, ROS 2 Humble framework, LiDAR SLAM mapping, and kinematics simulation in Gazebo. Participants will program real manipulator arms in the advanced RA lab.',
+        department: 'Robotics and Automation',
+        category: 'Workshop',
+        clubName: 'RoboTech Club EEC',
+        venue: 'Robotics & Automation Lab (RA)',
+        mode: 'In-Person',
+        eventDate: inTwoWeeks,
+        endDate: new Date(inTwoWeeks.getTime() + 8 * 60 * 60 * 1000),
+        registrationDeadline: new Date(inTwoWeeks.getTime() - 48 * 60 * 60 * 1000),
+        totalSeats: 45,
+        seatsAvailable: 43, // 2 registrations seeded
+        bannerUrl: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1200&auto=format&fit=crop&q=80',
+        tags: ['Robotics', 'ROS2', 'SLAM', 'Automation', 'Manipulators'],
+        organizer: organizer._id,
+        contactEmail: 'robotech@eec.srmrmp.edu.in',
+        contactPhone: '+91 98401 23457',
+        certificateProvided: true
+      },
+      {
+        title: "ELECTROVOLT '26 - Smart Grid & EV Powertrain Hackathon",
+        description:
+          'A 24-hour innovation sprint addressing next-generation Electric Vehicle Battery Management Systems (BMS), Regenerative Braking, and Microgrid integration. Cash prizes worth Rs. 50,000 up for grabs.',
+        department: 'Electrical and Electronics Engineering',
+        category: 'Hackathon',
+        clubName: 'IEEE EEC Student Branch & EEE Association',
+        venue: 'Power Electronics Lab (EEE)',
