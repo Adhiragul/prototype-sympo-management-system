@@ -81,3 +81,45 @@ export const Footer = () => {
           </div>
 
           {/* Col 4: Quick Portals & Contact */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">
+              Contact & Support
+            </h4>
+            <div className="space-y-2 text-xs">
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-blue-400" />
+                <span>events@eec.srmrmp.edu.in</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-green-400" />
+                <span>+91 44 4392 3041 / 3042</span>
+              </div>
+              <div className="pt-2">
+                <a
+                  href="https://srmeaswari.ac.in/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs transition-colors border border-slate-700"
+                >
+                  <span>SRM EEC Official Portal</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-slate-800/80 mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+          <p>© {new Date().getFullYear()} SRM Easwari Engineering College (Autonomous). All rights reserved.</p>
+          <p className="flex items-center gap-2">
+            <span>Affiliated to Anna University</span>
+            <span>•</span>
+            <span>Accredited by NAAC 'A' Grade</span>
+            <span>•</span>
+            <span>NBA Tier-1 Accredited</span>
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+};
