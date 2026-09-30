@@ -45,3 +45,50 @@ export const getEvents = async (req, res, next) => {
     }
 
     // Text search on title, description, clubName, and tags
+    if (search && search.trim() !== '') {
+      const searchRegex = new RegExp(search.trim(), 'i');
+      query.$or = [
+        { title: searchRegex },
+        { description: searchRegex },
+        { clubName: searchRegex },
+        { venue: searchRegex },
+        { tags: searchRegex }
+      ];
+    }
+
+    // Sort order
+    let sortOption = { eventDate: 1 };
+    if (sort === 'date-desc') {
+      sortOption = { eventDate: -1 };
+    } else if (sort === 'seats-asc') {
+      sortOption = { seatsAvailable: 1 };
+    } else if (sort === 'seats-desc') {
+      sortOption = { seatsAvailable: -1 };
+    } else if (sort === 'popular') {
+      sortOption = { totalSeats: -1 };
+    }
+
+    const events = await Event.find(query)
+      .populate('organizer', 'name email department')
+      .sort(sortOption);
+
+    res.json({
+      success: true,
+      count: events.length,
+      events
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get single event by ID
+// @route   GET /api/events/:id
+// @access  Public
+export const getEventById = async (req, res, next) => {
+  try {
+    const event = await Event.findById(req.params.id).populate(
+      'organizer',
+      'name email department collegeName phone'
+    );
+
