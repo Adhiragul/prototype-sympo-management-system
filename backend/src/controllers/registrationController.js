@@ -46,3 +46,52 @@ export const rsvpEvent = async (req, res, next) => {
       event: eventId,
       user: userId,
       status: 'confirmed'
+    });
+
+    if (existingReg) {
+      return res.status(400).json({
+        success: false,
+        message: 'You have already registered for this event.',
+        ticketId: existingReg.ticketId
+      });
+    }
+
+    // 4. ATOMIC CONCURRENCY RESERVATION: Decrement seat only if seatsAvailable > 0
+    const updatedEvent = await Event.findOneAndUpdate(
+      {
+        _id: eventId,
+        seatsAvailable: { $gt: 0 }
+      },
+      {
+        $inc: { seatsAvailable: -1 }
+      },
+      { new: true }
+    );
+
+    if (!updatedEvent) {
+      return res.status(400).json({
+        success: false,
+        message: 'Sorry! All seats for this event are fully booked.'
+      });
+    }
+
+    // 5. Create the registration ticket
+    const ticketId = generateTicketId(event.department);
+
+    try {
+      const registration = await Registration.create({
+        event: eventId,
+        user: userId,
+        ticketId,
+        status: 'confirmed',
+        registeredAt: new Date()
+      });
+
+      // Populate registration data for immediate display
+      await registration.populate('event', 'title eventDate venue category department bannerUrl clubName');
+      await registration.populate('user', 'name email department rollNo collegeName');
+
+      res.status(201).json({
+        success: true,
+        message: '🎉 RSVP Successful! Your seat has been reserved.',
+        registration,
