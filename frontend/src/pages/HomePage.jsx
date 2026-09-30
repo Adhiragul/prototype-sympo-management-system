@@ -204,3 +204,55 @@ export const HomePage = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <span>Instant downloadable CSV (RFC 4180 compliant) for Excel & Sheets</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <span>Automated digital entry passes with verified QR codes</span>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <Link
+                  to="/organizer/dashboard"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-md shadow-blue-700/30"
+                >
+                  <span>Go to Organizer Dashboard</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Venues Showcase */}
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-1">
+                <h5 className="font-bold text-white text-sm">TRP Auditorium</h5>
+                <p className="text-slate-400">1200+ capacity for National Symposium keynotes</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-1">
+                <h5 className="font-bold text-white text-sm">Robotics & ROS Lab</h5>
+                <p className="text-slate-400">Specialized hardware kits & simulation rigs</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-1">
+                <h5 className="font-bold text-white text-sm">Cyber Defense Lab</h5>
+                <p className="text-slate-400">Isolated network sandboxes for live CTF events</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-1">
+                <h5 className="font-bold text-white text-sm">Hi-Tech Seminar Hall</h5>
+                <p className="text-slate-400">Hybrid streaming setups & audio engineering</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Ticket Pass Modal */}
+      {activeTicket && (
+        <TicketModal
+          registration={activeTicket}
+          onClose={() => setActiveTicket(null)}
+        />
+      )}
+    </div>
+  );
+};
