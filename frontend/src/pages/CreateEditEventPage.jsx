@@ -107,3 +107,58 @@ export const CreateEditEventPage = () => {
               registrationDeadline: ev.registrationDeadline ? new Date(ev.registrationDeadline).toISOString().slice(0, 16) : '',
               totalSeats: ev.totalSeats,
               bannerUrl: ev.bannerUrl,
+              tags: Array.isArray(ev.tags) ? ev.tags.join(', ') : '',
+              contactEmail: ev.contactEmail || '',
+              contactPhone: ev.contactPhone || '',
+              certificateProvided: ev.certificateProvided
+            });
+          }
+        } catch (err) {
+          setError('Failed to load event data for editing.');
+        } finally {
+          setLoading(false);
+        }
+      };
+      loadEvent();
+    } else {
+      // Default dates for new event: 10 days ahead
+      const tenDaysAhead = new Date(Date.now() + 10 * 24 * 60 * 60 * 1000);
+      const nineDaysAhead = new Date(Date.now() + 9 * 24 * 60 * 60 * 1000);
+      setFormData((prev) => ({
+        ...prev,
+        eventDate: tenDaysAhead.toISOString().slice(0, 16),
+        registrationDeadline: nineDaysAhead.toISOString().slice(0, 16)
+      }));
+    }
+  }, [id, isEditMode, user]);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setError('');
+
+    try {
+      if (isEditMode) {
+        await eventApi.updateEvent(id, formData);
+      } else {
+        await eventApi.createEvent(formData);
+      }
+      navigate('/organizer/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to save event.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-[50vh] flex items-center justify-center">
