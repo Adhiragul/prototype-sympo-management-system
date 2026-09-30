@@ -146,3 +146,52 @@ export const StudentDashboard = () => {
                       </span>
                       <span className="text-xs font-mono font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-lg border border-amber-400/20">
                         {reg.ticketId}
+                      </span>
+                    </div>
+
+                    <Link to={`/events/${event._id}`}>
+                      <h3 className="text-base font-bold text-white hover:text-blue-400 transition-colors line-clamp-2">
+                        {event.title}
+                      </h3>
+                    </Link>
+
+                    <p className="text-xs text-blue-300">
+                      Dept: <strong>{event.department}</strong> • {event.clubName}
+                    </p>
+
+                    <div className="space-y-1.5 text-xs text-slate-300 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                        <span>{formattedDate} • {formattedTime}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                        <span className="truncate">{event.venue}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Actions: View Ticket Pass & Cancel RSVP */}
+                  <div className="flex items-center gap-2 pt-2 border-t border-slate-800">
+                    <button
+                      onClick={() => setActiveTicket(reg)}
+                      className="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-blue-700/20 transition-all"
+                    >
+                      <Ticket className="w-4 h-4" />
+                      <span>View Pass / QR</span>
+                    </button>
+
+                    <button
+                      onClick={() => setCancelModal(reg)}
+                      className="p-2 rounded-xl bg-slate-800 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 border border-slate-700 transition-colors"
+                      title="Cancel RSVP & Release Seat"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
