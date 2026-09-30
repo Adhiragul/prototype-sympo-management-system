@@ -45,3 +45,51 @@ const userSchema = new mongoose.Schema(
     },
     department: {
       type: String,
+      enum: DEPARTMENTS,
+      required: [true, 'Please select your department']
+    },
+    collegeName: {
+      type: String,
+      default: 'SRM Easwari Engineering College (Autonomous)'
+    },
+    rollNo: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+    year: {
+      type: Number,
+      min: 1,
+      max: 5,
+      default: 3
+    },
+    phone: {
+      type: String,
+      trim: true,
+      default: ''
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+
+// Hash password before saving
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Compare password method
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+const User = mongoose.model('User', userSchema);
+export default User;
