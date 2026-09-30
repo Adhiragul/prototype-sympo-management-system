@@ -326,3 +326,57 @@ export const CreateEditEventPage = () => {
 
           {/* Event Date & Registration Deadline */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-300 uppercase tracking-wider">
+                Event Date & Time *
+              </label>
+              <input
+                type="datetime-local"
+                name="eventDate"
+                required
+                value={formData.eventDate}
+                onChange={handleChange}
+                className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="font-bold text-slate-300 uppercase tracking-wider">
+                Registration Deadline *
+              </label>
+              <input
+                type="datetime-local"
+                name="registrationDeadline"
+                required
+                value={formData.registrationDeadline}
+                onChange={handleChange}
+                className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* Description */}
+          <div className="space-y-1.5">
+            <label className="font-bold text-slate-300 uppercase tracking-wider">
+              Event Description & Schedule *
+            </label>
+            <textarea
+              name="description"
+              rows="5"
+              required
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Provide a comprehensive breakdown of the symposium rounds, workshops sessions, prerequisites, and resource persons..."
+              className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500 leading-relaxed"
+            />
+          </div>
+
+          {/* Banner URL & Stock Presets */}
+          <div className="space-y-2">
+            <label className="font-bold text-slate-300 uppercase tracking-wider">
+              Banner Image URL
+            </label>
+            <input
+              type="url"
+              name="bannerUrl"
+              value={formData.bannerUrl}
