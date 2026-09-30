@@ -153,3 +153,54 @@ export const EventDetailPage = () => {
       <div className="relative rounded-3xl overflow-hidden border border-blue-900/40 bg-slate-950 shadow-2xl">
         <img
           src={event.bannerUrl}
+          alt={event.title}
+          className="w-full h-64 sm:h-80 object-cover opacity-60"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1128] via-[#0a1128]/70 to-transparent" />
+
+        <div className="absolute bottom-6 left-6 right-6 space-y-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-600 text-white shadow-md">
+              {event.category}
+            </span>
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-900/80 text-indigo-200 border border-indigo-500/40 backdrop-blur-md">
+              Dept: {event.department}
+            </span>
+            <span className="px-3 py-1 rounded-full text-xs font-medium bg-slate-800/80 text-slate-300 border border-slate-700/50 backdrop-blur-md">
+              {event.clubName}
+            </span>
+          </div>
+
+          <h1 className="text-2xl sm:text-4xl font-black text-white font-['Outfit'] leading-tight">
+            {event.title}
+          </h1>
+        </div>
+      </div>
+
+      {/* Main Grid: Details Left, RSVP & Action Right */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left 2 Cols: Description & Details */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Overview */}
+          <div className="bg-[#0b132b]/80 border border-blue-900/40 rounded-3xl p-6 sm:p-8 space-y-4 shadow-xl">
+            <h3 className="text-lg font-bold text-white font-['Outfit']">Event Overview & Agenda</h3>
+            <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-line">
+              {event.description}
+            </p>
+
+            {/* Certificate tag */}
+            {event.certificateProvided && (
+              <div className="pt-2 flex items-center gap-2 text-xs text-amber-300 bg-amber-500/10 p-3 rounded-2xl border border-amber-500/20">
+                <Award className="w-5 h-5 text-amber-400 shrink-0" />
+                <span>
+                  <strong>Authorized Certificate of Participation:</strong> Provided to all registered attendees upon verification by the SRM EEC department head.
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Tags */}
+          {event.tags && event.tags.length > 0 && (
+            <div className="bg-[#0b132b]/60 border border-slate-800 rounded-2xl p-4 flex items-center gap-2 flex-wrap">
+              <Tag className="w-4 h-4 text-blue-400 shrink-0" />
+              <span className="text-xs text-slate-400 font-semibold mr-1">Topics:</span>
