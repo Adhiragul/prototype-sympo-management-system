@@ -40,3 +40,46 @@ const eventSchema = new mongoose.Schema(
       type: String,
       enum: DEPARTMENTS,
       required: [true, 'Please specify the host department']
+    },
+    category: {
+      type: String,
+      enum: CATEGORIES,
+      required: [true, 'Please select event category']
+    },
+    clubName: {
+      type: String,
+      required: [true, 'Please specify the organizing club or student body'],
+      trim: true
+    },
+    venue: {
+      type: String,
+      required: [true, 'Please specify event venue or virtual link'],
+      trim: true
+    },
+    mode: {
+      type: String,
+      enum: ['In-Person', 'Virtual', 'Hybrid'],
+      default: 'In-Person'
+    },
+    eventDate: {
+      type: Date,
+      required: [true, 'Please set event date and time']
+    },
+    endDate: {
+      type: Date
+    },
+    registrationDeadline: {
+      type: Date,
+      required: [true, 'Please set registration deadline']
+    },
+    totalSeats: {
+      type: Number,
+      required: [true, 'Please set maximum seating capacity'],
+      min: [1, 'Total seats must be at least 1']
+    },
+    seatsAvailable: {
+      type: Number,
+      required: true,
+      min: [0, 'Available seats cannot be negative']
+    },
+    bannerUrl: {
