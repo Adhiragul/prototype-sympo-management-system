@@ -48,3 +48,54 @@ export const exportAttendeesCsv = async (req, res, next) => {
       'Registration Date': new Date(reg.registeredAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
       'Attendance Status': reg.attended ? 'PRESENT' : 'ABSENT',
       'Check-in Time': reg.attendedAt ? new Date(reg.attendedAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) : '-'
+    }));
+
+    const fields = [
+      'S.No',
+      'Ticket ID',
+      'Student Name',
+      'Email',
+      'Department',
+      'College',
+      'Roll No / Reg No',
+      'Year of Study',
+      'Contact Phone',
+      'Registration Date',
+      'Attendance Status',
+      'Check-in Time'
+    ];
+
+    const json2csvParser = new Parser({ fields });
+    const csv = json2csvParser.parse(data);
+
+    const safeTitle = sanitizeFilename(event.title);
+    const dateStr = new Date().toISOString().split('T')[0];
+    const filename = `SRM_EEC_${safeTitle}_Attendees_${dateStr}.csv`;
+
+    res.header('Content-Type', 'text/csv');
+    res.attachment(filename);
+    return res.send(csv);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Export event attendee list as JSON
+// @route   GET /api/export/event/:eventId/json
+// @access  Private (Organizer of event or Admin)
+export const exportAttendeesJson = async (req, res, next) => {
+  try {
+    const event = await Event.findById(req.params.eventId);
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    if (
+      event.organizer.toString() !== req.user._id.toString() &&
+      req.user.role !== 'admin'
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: 'You are not authorized to export this attendee list.'
+      });
+    }
