@@ -435,3 +435,58 @@ export const CreateEditEventPage = () => {
               </label>
               <input
                 type="text"
+                name="contactPhone"
+                value={formData.contactPhone}
+                onChange={handleChange}
+                className="w-full px-3 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* Certificate Toggle */}
+          <div className="flex items-center gap-3 p-3.5 bg-slate-900/60 rounded-xl border border-slate-800">
+            <input
+              type="checkbox"
+              id="certCheck"
+              name="certificateProvided"
+              checked={formData.certificateProvided}
+              onChange={handleChange}
+              className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-700 bg-slate-800"
+            />
+            <label htmlFor="certCheck" className="text-xs text-slate-300 font-semibold cursor-pointer">
+              Provide Authorized Participation Certificate to Verified Attendees
+            </label>
+          </div>
+
+          {/* Submit CTA */}
+          <div className="pt-4 flex items-center justify-end gap-3">
+            <Link
+              to="/organizer/dashboard"
+              className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition-colors"
+            >
+              Cancel
+            </Link>
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg shadow-blue-700/25 flex items-center gap-2 transition-all disabled:opacity-50"
+            >
+              {submitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Saving Event...</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 text-amber-300" />
+                  <span>{isEditMode ? 'Update Event Specifications' : 'Publish Symposium / Workshop'}</span>
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
