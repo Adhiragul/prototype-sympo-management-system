@@ -256,3 +256,55 @@ export const EventDetailPage = () => {
                   className={`h-full rounded-full transition-all duration-500 ${
                     isSoldOut
                       ? 'bg-rose-500'
+                      : event.seatsAvailable <= 10
+                      ? 'bg-amber-500'
+                      : 'bg-gradient-to-r from-blue-500 to-indigo-500'
+                  }`}
+                  style={{ width: `${percentFilled}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Event Time & Venue Info */}
+            <div className="space-y-3 text-xs text-slate-300 border-t border-slate-800 pt-4">
+              <div className="flex items-start gap-3">
+                <Calendar className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-white">{formattedDate}</p>
+                  <p className="text-slate-400">{formattedTime}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <MapPin className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-white">{event.venue}</p>
+                  <p className="text-slate-400">SRM EEC Ramapuram Campus</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-slate-400">Registration Closes</p>
+                  <p className="font-semibold text-white">{formattedDeadline}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Error banner */}
+            {error && (
+              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
+
+            {/* RSVP CTA Button */}
+            <div>
+              {isRegistered ? (
+                <div className="space-y-2">
+                  <div className="p-3 bg-emerald-500/15 border border-emerald-500/40 rounded-2xl text-center space-y-1">
+                    <p className="text-xs font-bold text-emerald-300 flex items-center justify-center gap-1.5">
+                      <CheckCircle className="w-4 h-4" />
+                      <span>Registration Confirmed</span>
