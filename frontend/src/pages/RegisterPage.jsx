@@ -105,3 +105,57 @@ export const RegisterPage = () => {
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{error}</span>
           </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs text-slate-200">
+          {/* Role selector */}
+          <div className="space-y-1">
+            <label className="font-bold text-slate-300 uppercase tracking-wider text-[11px]">
+              Account Role *
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setFormData((p) => ({ ...p, role: 'student' }))}
+                className={`py-2.5 px-3 rounded-xl border text-xs font-bold transition-all ${
+                  formData.role === 'student'
+                    ? 'bg-blue-600 text-white border-blue-400 shadow-md shadow-blue-600/30'
+                    : 'bg-slate-900 text-slate-400 border-slate-800 hover:bg-slate-800'
+                }`}
+              >
+                Student Attendee
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData((p) => ({ ...p, role: 'organizer' }))}
+                className={`py-2.5 px-3 rounded-xl border text-xs font-bold transition-all ${
+                  formData.role === 'organizer'
+                    ? 'bg-indigo-600 text-white border-indigo-400 shadow-md shadow-indigo-600/30'
+                    : 'bg-slate-900 text-slate-400 border-slate-800 hover:bg-slate-800'
+                }`}
+              >
+                Club / Faculty Organizer
+              </button>
+            </div>
+          </div>
+
+          {/* Full Name & Email */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="font-bold text-slate-300 uppercase tracking-wider text-[11px]">
+                Full Name *
+              </label>
+              <input
+                type="text"
+                name="name"
+                required
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Adhiragul S"
+                className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-white focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-300 uppercase tracking-wider text-[11px]">
+                College Email *
