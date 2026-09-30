@@ -140,3 +140,50 @@ export const createEvent = async (req, res, next) => {
     } = req.body;
 
     const seats = Number(totalSeats);
+    if (!seats || seats <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Total seats must be a positive number.'
+      });
+    }
+
+    const event = await Event.create({
+      title,
+      description,
+      department,
+      category,
+      clubName,
+      venue,
+      mode: mode || 'In-Person',
+      eventDate,
+      endDate,
+      registrationDeadline,
+      totalSeats: seats,
+      seatsAvailable: seats, // initially all seats are available
+      bannerUrl: bannerUrl || undefined,
+      tags: Array.isArray(tags) ? tags : (tags ? tags.split(',').map(t => t.trim()) : []),
+      organizer: req.user._id,
+      contactEmail: contactEmail || req.user.email,
+      contactPhone: contactPhone || req.user.phone || '',
+      certificateProvided: certificateProvided !== undefined ? certificateProvided : true
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Event created successfully!',
+      event
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Update an existing event
+// @route   PUT /api/events/:id
+// @access  Private (Organizer of this event or Admin)
+export const updateEvent = async (req, res, next) => {
+  try {
+    let event = await Event.findById(req.params.id);
+
+    if (!event) {
+      return res.status(404).json({
