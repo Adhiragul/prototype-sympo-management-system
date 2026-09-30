@@ -87,3 +87,47 @@ export const Navbar = () => {
                     isActive('/organizer/dashboard')
                       ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'
                       : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  }`}
+                >
+                  <LayoutDashboard className="w-4 h-4 text-cyan-400" />
+                  Organizer Portal
+                </Link>
+
+                <Link
+                  to="/organizer/create-event"
+                  className="px-3 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md shadow-blue-900/30 flex items-center gap-2 transition-all"
+                >
+                  <PlusCircle className="w-4 h-4" />
+                  Publish Event
+                </Link>
+              </>
+            )}
+          </nav>
+
+          {/* User Controls & Demo Switcher */}
+          <div className="flex items-center gap-3">
+            {/* Quick Demo Switcher for fast evaluation */}
+            <div className="hidden lg:flex items-center gap-1.5 bg-slate-900/80 p-1 rounded-xl border border-slate-800 text-xs">
+              <span className="px-2 text-slate-400 text-[11px]">Quick Demo:</span>
+              <button
+                onClick={() => quickDemoLogin('student')}
+                className={`px-2.5 py-1 rounded-lg transition-colors flex items-center gap-1 ${
+                  user?.role === 'student'
+                    ? 'bg-blue-600 text-white font-semibold'
+                    : 'text-slate-300 hover:bg-slate-800'
+                }`}
+                title="Log in as demo student (Adhiragul S - Cybersecurity)"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                Student
+              </button>
+              <button
+                onClick={() => quickDemoLogin('organizer')}
+                className={`px-2.5 py-1 rounded-lg transition-colors flex items-center gap-1 ${
+                  isOrganizer
+                    ? 'bg-indigo-600 text-white font-semibold'
+                    : 'text-slate-300 hover:bg-slate-800'
+                }`}
+                title="Log in as club organizer / faculty coordinator"
+              >
+                <UserCheck className="w-3.5 h-3.5 text-cyan-400" />
