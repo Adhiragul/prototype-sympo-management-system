@@ -152,3 +152,55 @@ export const HomePage = () => {
             </h2>
           </div>
 
+          <Link
+            to="/events"
+            className="text-xs font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1 transition-colors"
+          >
+            <span>View All Events ({featuredEvents.length}+)</span>
+            <ChevronRight className="w-4 h-4" />
+          </Link>
+        </div>
+
+        {/* Events Grid */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map((n) => (
+              <div key={n} className="h-96 rounded-2xl bg-slate-900/40 animate-pulse border border-slate-800" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredEvents.map((event) => (
+              <EventCard
+                key={event._id}
+                event={event}
+                userRegistrations={userRegistrations}
+                onRsvpSuccess={handleRsvpSuccess}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* College Club Spotlight & Venues */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-gradient-to-r from-[#0c173d] via-[#101e4a] to-[#0c173d] p-8 sm:p-12 rounded-3xl border border-blue-900/50 shadow-2xl relative overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div className="space-y-4">
+              <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                Organizers & Student Clubs
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-black text-white font-['Outfit']">
+                Publishing an Event for your Department?
+              </h3>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                Club presidents and faculty coordinators at SRM Easwari Engineering College can easily list symposiums, set maximum seating capacity, prevent overbooking, track live attendance check-ins, and export complete attendee reports to CSV and JSON formats.
+              </p>
+
+              <div className="space-y-2 text-xs text-slate-300">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <span>Real-time seat reservation with atomic concurrency</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
