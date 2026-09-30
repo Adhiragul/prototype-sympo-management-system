@@ -131,3 +131,48 @@ export const Navbar = () => {
                 title="Log in as club organizer / faculty coordinator"
               >
                 <UserCheck className="w-3.5 h-3.5 text-cyan-400" />
+                Organizer
+              </button>
+            </div>
+
+            {isAuthenticated ? (
+              <div className="flex items-center gap-3">
+                <div className="hidden sm:block text-right">
+                  <p className="text-xs font-semibold text-white leading-tight">
+                    {user?.name}
+                  </p>
+                  <p className="text-[10px] text-blue-300">
+                    {user?.department} • {user?.role?.toUpperCase()}
+                  </p>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="p-2 rounded-lg bg-slate-800/80 hover:bg-red-500/20 hover:text-red-400 text-slate-400 border border-slate-700/60 transition-colors"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/login"
+                  className="px-3 py-1.5 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors flex items-center gap-1.5"
+                >
+                  <LogIn className="w-4 h-4" />
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  className="px-3.5 py-1.5 rounded-lg text-sm font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-md shadow-blue-600/20 transition-all"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
