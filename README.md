@@ -43,3 +43,49 @@ It equips departmental student clubs with tools to publish events, track live se
 
 ### 1. 🎟️ Single-Click RSVP with Atomic Concurrency
 - Prevents race conditions and overbooking when hundreds of students register simultaneously.
+- Employs MongoDB atomic operators: `{ seatsAvailable: { $gt: 0 } }` with `$inc: { seatsAvailable: -1 }`.
+- Instant user confirmation with celebratory confetti animation.
+- Instant self-service RSVP cancellation with automated seat reclaiming.
+
+### 2. 📱 Scannable Digital Entry Pass (QR Code)
+- Generates a unique institutional registration code (e.g. `EEC-CYS-849201`).
+- Embeds encrypted verification data into a scannable **QR Code** (`qrcode.react`).
+- Formatted printable entry badge featuring college crest, attendee roll number, department, reporting time, and venue instructions.
+
+### 3. 📊 Administrative Attendee Roster & Export (CSV / JSON)
+- **Export to CSV**: RFC 4180-compliant export formatted for Microsoft Excel & Google Sheets containing:
+  - *Ticket ID, Student Name, College Email, Department, College, Roll No, Study Year, Phone, Registration Timestamp, Attendance Status, Check-in Time*.
+- **Export to JSON**: Structured data payload for integration with college ERP and accreditation data pipelines.
+- **Live Check-in Desk**: One-click check-in toggle directly on the organizer dashboard to mark students **Present** or **Absent** with live verification timestamps.
+
+### 4. 🔍 Multi-Criteria Event Discovery & Filtering
+- Filter by Department (including quick pills for **Cybersecurity**, **Robotics & Automation**, and **EEE**).
+- Filter by Category (*Symposium*, *Workshop*, *Hackathon*, *Paper Presentation*, *Seminar*, *Technical Contest*).
+- Real-time search across event titles, club names, descriptions, and tags.
+- Availability toggle (*Available Seats Only*).
+- Sort by Date (upcoming/latest), Remaining Seats, or Capacity.
+
+### 5. 🛡️ Role-Based Access Control (RBAC) & Security
+- Strict JWT bearer authentication with bcrypt password hashing.
+- Differentiated user roles: **Student Attendee** and **Club Organizer / Faculty Coordinator**.
+
+### 6. 💾 Zero-Config Database Fallback
+- Connects to local MongoDB or MongoDB Atlas via `MONGODB_URI` in `.env`.
+- Automatically spins up an embedded `mongodb-memory-server` with pre-seeded demo symposiums and test accounts if no MongoDB daemon is installed on the host machine.
+
+---
+
+## 👥 Pre-Seeded Demo Credentials
+
+The application includes pre-loaded demo accounts for instant evaluation:
+
+| Role | Email Address | Password | Profile Details |
+| :--- | :--- | :--- | :--- |
+| **Faculty / Club Organizer** | `organizer@eec.srmrmp.edu.in` | `Admin@123` | Dr. R. Anand (Staff Coordinator, Cybersecurity) |
+| **Student (Cybersecurity)** | `student@eec.srmrmp.edu.in` | `Student@123` | Adhiragul S (3rd Year, Roll No: `310621205001`) |
+| **Student (Robotics & Auto)** | `karthik.ra@eec.srmrmp.edu.in` | `Student@123` | Karthik Narayanan (3rd Year, Roll No: `310621206015`) |
+| **Student (EEE)** | `swetha.eee@eec.srmrmp.edu.in` | `Student@123` | Swetha Raman (2nd Year, Roll No: `310621207042`) |
+
+> ⚡ *Tip: Use the **Quick Demo** switcher pills located directly on the top navigation bar or the login screen for 1-click credential auto-fill!*
+
+---
