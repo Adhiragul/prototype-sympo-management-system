@@ -48,3 +48,53 @@ async function runTests() {
   );
 
   // 6. Filter by Department: Electrical and Electronics Engineering
+  const eeeEventsRes = await fetch(`${BASE_URL}/events?department=Electrical and Electronics Engineering`).then(r => r.json());
+  console.log(
+    '6. Filter by EEE:',
+    eeeEventsRes.success && eeeEventsRes.events.length > 0 ? `✅ PASS (${eeeEventsRes.events[0].title})` : '❌ FAIL'
+  );
+
+  // 7. Single-Click RSVP for Student on the EEE Hackathon (not yet registered)
+  const eeeEvent = eeeEventsRes.events[0];
+  const initialSeats = eeeEvent.seatsAvailable;
+
+  const rsvpRes = await fetch(`${BASE_URL}/registrations/rsvp/${eeeEvent._id}`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${studentToken}`,
+      'Content-Type': 'application/json'
+    }
+  }).then(r => r.json());
+
+  console.log(
+    '7. Single-Click RSVP:',
+    rsvpRes.success && rsvpRes.registration?.ticketId ? `✅ PASS (Ticket: ${rsvpRes.registration.ticketId})` : '❌ FAIL',
+    rsvpRes.message
+  );
+
+  // 8. Prevent Duplicate RSVP
+  const duplicateRsvpRes = await fetch(`${BASE_URL}/registrations/rsvp/${eeeEvent._id}`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${studentToken}`,
+      'Content-Type': 'application/json'
+    }
+  }).then(r => r.json());
+
+  console.log(
+    '8. Duplicate RSVP Prevention:',
+    !duplicateRsvpRes.success ? `✅ PASS (${duplicateRsvpRes.message})` : '❌ FAIL'
+  );
+
+  // 9. Organizer View Attendee Roster
+  const attendeesRes = await fetch(`${BASE_URL}/registrations/event/${eeeEvent._id}/attendees`, {
+    headers: { 'Authorization': `Bearer ${organizerToken}` }
+  }).then(r => r.json());
+
+  console.log(
+    '9. Attendee Roster:',
+    attendeesRes.success && attendeesRes.attendees.length > 0 ? `✅ PASS (${attendeesRes.totalAttendees} attendees)` : '❌ FAIL'
+  );
+
+  // 10. CSV Export Endpoint
+  const csvRes = await fetch(`${BASE_URL}/export/event/${eeeEvent._id}/csv`, {
