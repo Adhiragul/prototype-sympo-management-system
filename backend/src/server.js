@@ -38,3 +38,44 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/registrations', registrationRoutes);
+app.use('/api/export', exportRoutes);
+app.use('/api/stats', statsRoutes);
+
+// Manual Seed Trigger Endpoint (Convenient for demo reset)
+app.post('/api/seed', async (req, res) => {
+  try {
+    await seedDatabase();
+    res.json({ success: true, message: 'Database reseeded successfully!' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// Global Error Handler
+app.use(errorHandler);
+
+// Start Server after connecting to Database
+const startServer = async () => {
+  try {
+    await connectDB();
+
+    // Auto-seed if database is empty
+    const eventCount = await Event.countDocuments();
+    if (eventCount === 0) {
+      console.log('📦 Database is empty. Auto-seeding SRM EEC initial symposiums & demo users...');
+      await seedDatabase();
+    }
+
+    app.listen(PORT, () => {
+      console.log(`🚀 SRM EEC SympoSphere Backend running at http://localhost:${PORT}`);
+      console.log(`🏫 Institution: SRM Easwari Engineering College (Autonomous)`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+startServer();
+
+export default app;
