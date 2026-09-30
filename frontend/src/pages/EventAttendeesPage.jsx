@@ -149,3 +149,54 @@ export const EventAttendeesPage = () => {
           <p className="text-xs text-slate-300">
             Registered Attendees: <strong className="text-white">{attendees.length}</strong> • Verified Check-ins: <strong className="text-emerald-400">{attendedCount}</strong>
           </p>
+        </div>
+
+        {/* Primary Export Actions */}
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <button
+            onClick={handleExportCsv}
+            disabled={exportingCsv || attendees.length === 0}
+            className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg shadow-emerald-700/25 flex items-center gap-2 transition-all disabled:opacity-50"
+            title="Download CSV formatted for Microsoft Excel and Google Sheets"
+          >
+            {exportingCsv ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <FileSpreadsheet className="w-4 h-4" />
+            )}
+            <span>Export CSV (Excel)</span>
+          </button>
+
+          <button
+            onClick={handleExportJson}
+            disabled={exportingJson || attendees.length === 0}
+            className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-700/25 flex items-center gap-2 transition-all disabled:opacity-50"
+            title="Download JSON structured roster"
+          >
+            {exportingJson ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <FileCode className="w-4 h-4" />
+            )}
+            <span>Export JSON</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Search and Table Roster */}
+      <div className="space-y-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="relative w-full sm:max-w-xs">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Search by student, roll no, ticket ID..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+
+          <p className="text-xs text-slate-400">
+            Showing <strong className="text-white">{filteredAttendees.length}</strong> of {attendees.length} attendees
+          </p>
