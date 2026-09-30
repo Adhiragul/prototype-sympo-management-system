@@ -92,3 +92,51 @@ export const getEventById = async (req, res, next) => {
       'name email department collegeName phone'
     );
 
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+
+    // Count confirmed attendees
+    const confirmedRegistrations = await Registration.countDocuments({
+      event: event._id,
+      status: 'confirmed'
+    });
+
+    res.json({
+      success: true,
+      event,
+      confirmedRegistrations
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Create a new event
+// @route   POST /api/events
+// @access  Private (Organizer / Admin)
+export const createEvent = async (req, res, next) => {
+  try {
+    const {
+      title,
+      description,
+      department,
+      category,
+      clubName,
+      venue,
+      mode,
+      eventDate,
+      endDate,
+      registrationDeadline,
+      totalSeats,
+      bannerUrl,
+      tags,
+      contactEmail,
+      contactPhone,
+      certificateProvided
+    } = req.body;
+
+    const seats = Number(totalSeats);
