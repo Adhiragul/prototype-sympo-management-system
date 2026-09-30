@@ -148,3 +148,53 @@ export const FilterBar = ({
             else if (dept === 'Electrical and Electronics Engineering') icon = <Zap className="w-3.5 h-3.5 text-amber-400" />;
 
             return (
+              <button
+                key={dept}
+                onClick={() => setSelectedDepartment(dept)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-1.5 border ${
+                  isSelected
+                    ? 'bg-blue-600 text-white border-blue-400 shadow-md shadow-blue-600/30 font-semibold'
+                    : 'bg-slate-900/70 text-slate-300 border-slate-700/60 hover:bg-slate-800 hover:text-white'
+                }`}
+              >
+                {icon}
+                <span>
+                  {dept === 'Robotics and Automation' ? 'Robotics & Automation (RA)' : dept === 'Electrical and Electronics Engineering' ? 'EEE' : dept === 'Computer Science & Engineering' ? 'CSE' : dept}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Row 3: Category Pills */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 border-t border-slate-800/80 pt-3">
+        <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider shrink-0">
+          Category:
+        </span>
+        {CATEGORIES.map((cat) => {
+          const isSelected = selectedCategory === cat;
+          return (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-2.5 py-1 rounded-lg text-xs transition-colors shrink-0 ${
+                isSelected
+                  ? 'bg-indigo-600/30 text-indigo-300 border border-indigo-500/50 font-semibold'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+              }`}
+            >
+              {cat}
+            </button>
+          );
+        })}
+
+        {totalFound !== undefined && (
+          <span className="ml-auto text-xs text-slate-400 shrink-0 font-medium">
+            Showing <strong className="text-white">{totalFound}</strong> event{totalFound === 1 ? '' : 's'}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
