@@ -98,3 +98,53 @@ export const FilterBar = ({
             }`}
           >
             {availableOnly ? (
+              <CheckSquare className="w-4 h-4 text-blue-400" />
+            ) : (
+              <Square className="w-4 h-4 text-slate-500" />
+            )}
+            <span>Available Seats Only</span>
+          </button>
+
+          {/* Sort selector */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-blue-500"
+          >
+            <option value="date-asc">Date: Upcoming First</option>
+            <option value="date-desc">Date: Latest First</option>
+            <option value="seats-asc">Seats: Fewest Left</option>
+            <option value="seats-desc">Seats: Most Available</option>
+            <option value="popular">Capacity: Largest Events</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Row 2: Department Selector Pills */}
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <label className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <Filter className="w-3.5 h-3.5 text-blue-400" />
+            <span>Filter by Department</span>
+          </label>
+
+          {isFiltered && (
+            <button
+              onClick={handleReset}
+              className="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1 transition-colors"
+            >
+              <X className="w-3.5 h-3.5" />
+              <span>Reset All Filters</span>
+            </button>
+          )}
+        </div>
+
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+          {DEPARTMENTS.map((dept) => {
+            const isSelected = selectedDepartment === dept;
+            let icon = null;
+            if (dept === 'Cybersecurity') icon = <Shield className="w-3.5 h-3.5 text-emerald-400" />;
+            else if (dept === 'Robotics and Automation') icon = <Cpu className="w-3.5 h-3.5 text-cyan-400" />;
+            else if (dept === 'Electrical and Electronics Engineering') icon = <Zap className="w-3.5 h-3.5 text-amber-400" />;
+
+            return (
