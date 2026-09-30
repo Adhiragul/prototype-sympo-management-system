@@ -92,3 +92,50 @@ export const OrganizerDashboard = () => {
       setDeletingId(null);
     }
   };
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 text-xs font-bold text-blue-400 uppercase tracking-wider">
+            <LayoutDashboard className="w-4 h-4" />
+            <span>Club Coordinator & Admin Center</span>
+          </div>
+          <h1 className="text-3xl font-black text-white font-['Outfit']">
+            SRM EEC Organizer Dashboard
+          </h1>
+          <p className="text-xs text-slate-400 mt-1">
+            Publish symposiums, track live seat availability, manage check-in verification, and export attendee rosters.
+          </p>
+        </div>
+
+        <Link
+          to="/organizer/create-event"
+          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg shadow-blue-700/25 flex items-center gap-2 transition-all shrink-0"
+        >
+          <PlusCircle className="w-4 h-4" />
+          <span>Publish New Event</span>
+        </Link>
+      </div>
+
+      {/* Analytics KPI Stat Cards */}
+      {stats && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-[#0b132b]/80 border border-blue-900/40 p-5 rounded-2xl space-y-2 shadow-lg">
+            <div className="flex items-center justify-between text-slate-400 text-xs">
+              <span>Total Events Published</span>
+              <Calendar className="w-4 h-4 text-blue-400" />
+            </div>
+            <p className="text-2xl font-black text-white font-mono">{stats.totalEvents}</p>
+            <p className="text-[11px] text-blue-300">Across SRM EEC Departments</p>
+          </div>
+
+          <div className="bg-[#0b132b]/80 border border-blue-900/40 p-5 rounded-2xl space-y-2 shadow-lg">
+            <div className="flex items-center justify-between text-slate-400 text-xs">
+              <span>Total Registrations</span>
+              <Users className="w-4 h-4 text-emerald-400" />
+            </div>
+            <p className="text-2xl font-black text-emerald-400 font-mono">{stats.totalRegistrations}</p>
+            <p className="text-[11px] text-emerald-300/80">Confirmed Student RSVPs</p>
+          </div>
