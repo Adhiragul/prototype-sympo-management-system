@@ -83,3 +83,46 @@ const eventSchema = new mongoose.Schema(
       min: [0, 'Available seats cannot be negative']
     },
     bannerUrl: {
+      type: String,
+      default: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&auto=format&fit=crop&q=80'
+    },
+    tags: [
+      {
+        type: String,
+        trim: true
+      }
+    ],
+    organizer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    contactEmail: {
+      type: String,
+      trim: true
+    },
+    contactPhone: {
+      type: String,
+      trim: true
+    },
+    status: {
+      type: String,
+      enum: ['upcoming', 'ongoing', 'completed', 'cancelled'],
+      default: 'upcoming'
+    },
+    certificateProvided: {
+      type: Boolean,
+      default: true
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+
+// Indexes for super fast search & filter queries
+eventSchema.index({ department: 1, category: 1, eventDate: 1 });
+eventSchema.index({ title: 'text', description: 'text', tags: 'text' });
+
+const Event = mongoose.model('Event', eventSchema);
+export default Event;
