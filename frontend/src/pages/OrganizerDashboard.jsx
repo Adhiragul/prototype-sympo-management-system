@@ -139,3 +139,51 @@ export const OrganizerDashboard = () => {
             <p className="text-2xl font-black text-emerald-400 font-mono">{stats.totalRegistrations}</p>
             <p className="text-[11px] text-emerald-300/80">Confirmed Student RSVPs</p>
           </div>
+
+          <div className="bg-[#0b132b]/80 border border-blue-900/40 p-5 rounded-2xl space-y-2 shadow-lg">
+            <div className="flex items-center justify-between text-slate-400 text-xs">
+              <span>Seat Fill Rate</span>
+              <TrendingUp className="w-4 h-4 text-amber-400" />
+            </div>
+            <p className="text-2xl font-black text-amber-400 font-mono">{stats.fillRate}%</p>
+            <p className="text-[11px] text-slate-400">{stats.totalCapacity - stats.totalAvailable} of {stats.totalCapacity} seats booked</p>
+          </div>
+
+          <div className="bg-[#0b132b]/80 border border-blue-900/40 p-5 rounded-2xl space-y-2 shadow-lg">
+            <div className="flex items-center justify-between text-slate-400 text-xs">
+              <span>Check-in Verification</span>
+              <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+            </div>
+            <p className="text-2xl font-black text-cyan-400 font-mono">{stats.attendanceRate}%</p>
+            <p className="text-[11px] text-slate-400">QR scanned at venue</p>
+          </div>
+        </div>
+      )}
+
+      {/* Events Management Roster Table */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold text-white font-['Outfit'] flex items-center gap-2">
+          <span>Active Events & Attendee Rosters</span>
+          <span className="text-xs font-normal text-slate-400">({events.length} events)</span>
+        </h2>
+
+        {loading ? (
+          <div className="min-h-[30vh] flex flex-col items-center justify-center space-y-3">
+            <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+            <p className="text-xs text-slate-400">Loading events and attendee rosters...</p>
+          </div>
+        ) : events.length === 0 ? (
+          <div className="p-12 text-center bg-slate-900/60 border border-slate-800 rounded-3xl space-y-4">
+            <p className="text-slate-400 text-sm">No events found. Start by publishing your first symposium!</p>
+            <Link
+              to="/organizer/create-event"
+              className="inline-block px-4 py-2 bg-blue-600 rounded-xl text-white text-xs font-bold"
+            >
+              Publish Event Now
+            </Link>
+          </div>
+        ) : (
+          <div className="bg-[#0b132b]/80 border border-blue-900/40 rounded-2xl overflow-hidden shadow-xl">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs text-slate-300">
+                <thead className="bg-[#070d1e] text-slate-400 uppercase text-[10px] tracking-wider border-b border-blue-950">
