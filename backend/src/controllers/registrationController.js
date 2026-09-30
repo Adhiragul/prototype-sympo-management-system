@@ -193,3 +193,52 @@ export const checkRsvpStatus = async (req, res, next) => {
       status: 'confirmed'
     });
 
+    res.json({
+      success: true,
+      isRegistered: !!registration,
+      registration: registration || null
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get attendees list for an event
+// @route   GET /api/registrations/event/:eventId/attendees
+// @access  Private (Organizer of this event or Admin)
+export const getEventAttendees = async (req, res, next) => {
+  try {
+    const event = await Event.findById(req.params.eventId);
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+
+    // Verify organizer or admin
+    if (
+      event.organizer.toString() !== req.user._id.toString() &&
+      req.user.role !== 'admin'
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: 'You are not authorized to view this attendee roster.'
+      });
+    }
+
+    const attendees = await Registration.find({
+      event: req.params.eventId,
+      status: 'confirmed'
+    })
+      .populate('user', 'name email department collegeName rollNo year phone')
+      .sort({ registeredAt: 1 });
+
+    res.json({
+      success: true,
+      totalAttendees: attendees.length,
+      event: {
+        _id: event._id,
+        title: event.title,
+        department: event.department,
+        totalSeats: event.totalSeats,
