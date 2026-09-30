@@ -281,3 +281,51 @@ export const OrganizerDashboard = () => {
                             </button>
 
                             {/* Export JSON Button */}
+                            <button
+                              onClick={() => handleExportJson(event._id, event.title)}
+                              disabled={exportingId === `${event._id}-json`}
+                              className="px-2.5 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/40 text-xs font-semibold flex items-center gap-1 transition-colors"
+                              title="Export Attendee Roster as JSON"
+                            >
+                              {exportingId === `${event._id}-json` ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              ) : (
+                                <FileCode className="w-3.5 h-3.5 text-indigo-400" />
+                              )}
+                              <span>JSON</span>
+                            </button>
+                          </div>
+                        </td>
+
+                        {/* Action Icons */}
+                        <td className="py-4 px-4 text-right whitespace-nowrap">
+                          <div className="inline-flex items-center gap-1">
+                            <Link
+                              to={`/organizer/edit-event/${event._id}`}
+                              className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+                              title="Edit Event"
+                            >
+                              <Edit className="w-3.5 h-3.5" />
+                            </Link>
+                            <button
+                              onClick={() => handleDeleteEvent(event._id, event.title)}
+                              disabled={deletingId === event._id}
+                              className="p-1.5 rounded-lg bg-slate-800 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition-colors"
+                              title="Delete Event"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
