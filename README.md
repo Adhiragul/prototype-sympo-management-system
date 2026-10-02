@@ -158,6 +158,8 @@ cd ..
 
 Copy `backend/.env.example` to `backend/.env` and replace `JWT_SECRET` with a unique random value of at least 32 characters. The backend will refuse to start without it. `MONGODB_URI` is optional; without it, the app uses a temporary in-memory database.
 
+The temporary database receives demo data automatically when empty. A configured MongoDB is never seeded automatically. To deliberately replace its data with demo records, run `npm run seed --prefix backend` only after checking the selected database; this command deletes existing users, events, and registrations.
+
 ### 4. Run Application
 
 #### Option A: Unified Dev Server (Recommended)
