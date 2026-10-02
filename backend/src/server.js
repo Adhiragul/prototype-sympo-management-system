@@ -10,6 +10,7 @@ import statsRoutes from './routes/statsRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { seedDatabase } from './utils/seeder.js';
 import Event from './models/Event.js';
+import { shouldAutoSeed } from './config/seedPolicy.js';
 
 dotenv.config();
 
@@ -45,16 +46,6 @@ app.use('/api/registrations', registrationRoutes);
 app.use('/api/export', exportRoutes);
 app.use('/api/stats', statsRoutes);
 
-// Manual Seed Trigger Endpoint (Convenient for demo reset)
-app.post('/api/seed', async (req, res) => {
-  try {
-    await seedDatabase();
-    res.json({ success: true, message: 'Database reseeded successfully!' });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
-
 // Global Error Handler
 app.use(errorHandler);
 
@@ -63,9 +54,9 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    // Auto-seed if database is empty
+    // Seed demo data only in the temporary in-memory database.
     const eventCount = await Event.countDocuments();
-    if (eventCount === 0) {
+    if (shouldAutoSeed({ mongoUri: process.env.MONGODB_URI, eventCount })) {
       console.log('📦 Database is empty. Auto-seeding SRM EEC initial symposiums & demo users...');
       await seedDatabase();
     }
